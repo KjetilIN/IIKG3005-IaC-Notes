@@ -15,9 +15,12 @@ This command initialize a working directory for terraform. Should be used when w
 ### Terraform Plan
 "terraform plan" is the command for creating an execution plan, which lets you preview the changes that Terraform plans to do to the infrastructure. We will be using the following command:
 
-- terraform plan -out=main.tfplan -> Only creates a plan file and DOES NOT APPLY IT could simply write over the file. However, doing this makes you loose the plan. In case of different environments, it may be good with multiple plans
+**terraform plan -out=main.tfplan** -> Only creates a plan file and DOES NOT APPLY IT could simply write over the file. However, doing this makes you loose the plan. In case of different environments, it may be good with multiple plans
 
-If you were to make changes you could either write over the file or make a new file. If it is a bug, you 
+If you were to make changes you could either write over the file or make a new file. There are some problems connected to this; 
+
+> Terraform's plan files are built to be specific to the current state at the time they were created. They are, by their nature, transient and not intended to be long-lived. Applying an old .tfplan to an updated state will result in a stale state error. The use of old .tfplan files for reverting changes is not a supported or recommended workflow in Terraform due to the tightly coupled nature of plans and the current state of your managed resources. 
+
 
 ### Terraform Apply
 "terraform apply" is used to apply a plan and change the infrastructure as it is. Use the .tfplan file;
