@@ -5,6 +5,13 @@ They do not fit in a module, but may be important to understand.
 
 
 ## The Azure hierarchy
+The image below shows how an organization can use the Azure hierarchy; <br>
+
+![image](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/6acb3bbb-bf41-4d4d-b0ec-e7d03c76e544)
+
+Here is all of the layers; <br>
+
+![image](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/8c256492-0c50-4fe3-91e9-bce7487bed2f)
 
 
 ### Subscription 
