@@ -46,3 +46,15 @@ variable "az_regions" {
   description = "Azure array for resources"
   default     = ["westeurope", "northeurope"]
 }
+
+# Defining a map
+variable "vmsize" {
+  type = map(any)
+  description = "Size of a VM according to Azure"
+  default = {
+    "small"  = "Standard_B1s",
+    "medium" = "Standard_B2s"
+    "large"  = "Standard_B4ms"
+  }
+
+}
