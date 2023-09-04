@@ -15,10 +15,10 @@ provider "azurerm" {
 
 locals {
   name = "LearinIT"
-  tags ={
+  tags = {
     enviroment = "Production"
     costcenter = "IT"
-    owner = "Kjetil Indrehus"
+    owner      = "Kjetil Indrehus"
   }
 }
 
@@ -28,12 +28,12 @@ resource "azurerm_resource_group" "rgwe" {
 }
 
 resource "azurerm_storage_account" "sa-demo" {
-  name = "sa-name"
-  resource_group_name = var.rgname
-  location = var.location
-  account_tier = "Standard"
+  name                     = "sa-name"
+  resource_group_name      = var.rgname
+  location                 = var.location
+  account_tier             = "Standard"
   account_replication_type = "LRS"
 
-  tags = {}
-  
+  tags = local.tags
+
 }
