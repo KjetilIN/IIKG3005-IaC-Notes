@@ -22,3 +22,22 @@ Use local values only in moderation, in situations where a single value or resul
 
 A module is just a folder with a set of terraform files that together provide IaC. 
 A module is usually not dividable.
+
+
+## Variable List
+
+A list can be defined easily like so; 
+
+```terraform
+
+# Defining a list variable 
+variable "az_regions" {
+  type        = list(string)
+  description = "Azure array for resources"
+  default     = ["westeurope", "northeurope"]
+}
+
+``````
+
+Note that a variable list can be of one type only. This is very useful for 
+
