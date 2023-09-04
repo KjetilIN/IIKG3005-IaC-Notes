@@ -60,6 +60,14 @@ variable "vmsize" {
 
 }
 
-``````
+```
+
+## Output
+
+Used to expose information form child module to parent module. 
+This could be useful if the parent module needs to do something with the child module. 
+You could output any attribute from any resource. 
+
+Find all attributes for a resource in Azures documentation.
 
 
