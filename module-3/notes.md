@@ -1,6 +1,9 @@
-# Locals 
+## Locals 
 
 Terraform Locals are named values which can be assigned and used in your code.
+Locals can not be sent between modules.
+
+Useful for tags for the whole configuration  
 
 **NB** A Local is only accessible within the local module vs a Terraform variable which can be scoped globally
 
@@ -8,6 +11,14 @@ Use local values only in moderation, in situations where a single value or resul
 
 ## Options
 
-You can implement locals directly in the main.tf file
+1.You can implement locals directly in the main.tf file (With the resources)
 
-You could also create a locals.tf file within the module.
+2.You could also create a **locals.tf** file within the module.
+
+3.You could also add all in **variables.tf** file, so that variables and locals are together. 
+
+
+## Module
+
+A module is just a folder with a set of terraform files that together provide IaC. 
+A module is usually not dividable.
