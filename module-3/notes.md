@@ -37,7 +37,29 @@ variable "az_regions" {
   default     = ["westeurope", "northeurope"]
 }
 
+```
+
+Note that a variable list can be of one type only. 
+This is very useful for multiple options and defining multiple different resources!
+
+## Variable Map
+
+Works like a regular map -> Key, value pair. 
+Here is an example of using it to define VM Size;
+
+```terraform
+# Defining a map
+variable "vmsize" {
+  type = map(any)
+  description = "Size of a VM according to Azure"
+  default = {
+    "small"  = "Standard_B1s",
+    "medium" = "Standard_B2s"
+    "large"  = "Standard_B4ms"
+  }
+
+}
+
 ``````
 
-Note that a variable list can be of one type only. This is very useful for 
 
