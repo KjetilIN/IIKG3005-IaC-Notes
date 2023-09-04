@@ -13,3 +13,28 @@ variable "rgname" {
   default     = "rg-demo-terraform"
 
 }
+
+variable "saname" {
+  type        = string
+  description = "Storage account Name"
+
+}
+
+variable "company" {
+  type        = string
+  description = "Company Name"
+
+}
+
+variable "project" {
+  type        = string
+  description = "Project Name"
+
+}
+
+
+variable "billing_code" {
+  type        = string
+  description = "Billing Code"
+
+}
