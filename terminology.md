@@ -69,3 +69,14 @@ Azure resources could be added to a specific sub-network
 Allows you to filter out network traffic between Azure resources in an Azure virtual network. 
 Based on rules, you can deny or allow network traffic. Could also be NSG for a specific subnet.
 Acts like a firewall. 
+
+
+### Tags
+
+Tags are metadata information to apply to your Azure resources. 
+You can tag resources based on billing, teams, etc.
+The tags are stored in plain text. Never add sensitive data to tags. 
+
+Read more about tags here: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources
+
+Read more about tag name strategy here: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources
