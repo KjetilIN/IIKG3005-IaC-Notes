@@ -20,6 +20,7 @@ module "vnet" {
   base_name            = "kjetil"
   location             = "westeurope"
   public_ip_address_id = module.vm.public_ip_address_id
+  common_tags = local.common_tags
 }
 
 # The VM Module
@@ -28,4 +29,5 @@ module "vm" {
   rgname   = "kjetil-vmrg"
   location = "westeurope"
   nic_id   = module.vnet.vnet-nic-output-id # Using the VNET output for the VM Module! 
+  common_tags = local.common_tags
 }

@@ -2,6 +2,8 @@ resource "azurerm_resource_group" "rg-vm" {
   name     = var.rgname
   location = var.location
 
+  tags = var.common_tags
+
 }
 
 # Public IP adress for the VM
@@ -11,6 +13,7 @@ resource "azurerm_public_ip" "pip" {
   location            = azurerm_resource_group.rg-vm.location
   allocation_method   = "Static"
 
+  tags = var.common_tags
 }
 
 # Virtual Machine 
@@ -36,4 +39,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = "20_04-lts"
     version   = "latest"
   }
+
+  tags = var.common_tags
 }

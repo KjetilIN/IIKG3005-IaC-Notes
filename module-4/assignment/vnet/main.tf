@@ -39,7 +39,7 @@ resource "azurerm_network_security_group" "nsg" {
     destination_address_prefix = "*"
   }
 
-  tags = {}
+  tags = var.common_tags
 
 
 }
@@ -52,7 +52,7 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = ["10.0.0.0/16"]
   dns_servers         = ["10.0.0.4", "10.0.0.5"]
 
-  tags = {}
+  tags = var.common_tags
 }
 
 # The subnet that we need for the vnet

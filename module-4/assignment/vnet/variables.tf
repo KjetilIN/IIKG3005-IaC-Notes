@@ -13,3 +13,9 @@ variable "public_ip_address_id" {
   type = string
   description = "Public IP Adress for the VM"
 }
+
+variable "common_tags" {
+    type = map(string)
+    description = "Common tags by the root folder"
+  
+}

@@ -13,3 +13,9 @@ variable "nic_id" {
   description = "The NIC ID for the VNET"
 
 }
+
+variable "common_tags" {
+    type = map(string)
+    description = "Common Tags given by root module"
+  
+}
