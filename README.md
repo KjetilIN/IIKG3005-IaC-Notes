@@ -19,6 +19,7 @@ Here is a table of all the topics and content that was talked about during this 
 | 3          |   Terraform Locals  |   Using locals with terraform                     |  [module-3/notes.md](https://github.com/KjetilIN/IIKG3005-IaC-Notes/blob/main/module-3/notes.md)   | [module-3/locals-demo/](https://github.com/KjetilIN/IIKG3005-IaC-Notes/tree/main/module-3/locals-demo)                         |
 | 3          |   Variables: Maps and List |   Using lists and maps in terraform variables                    |  [module-3/notes.md](https://github.com/KjetilIN/IIKG3005-IaC-Notes/blob/main/module-3/notes.md)   | [module-3/list-map-demo/](https://github.com/KjetilIN/IIKG3005-IaC-Notes/tree/main/module-3/list-map-demo)                         |
 | 3          |   Output |   Used to exspose information to parent modules                    |  [module-3/notes.md](https://github.com/KjetilIN/IIKG3005-IaC-Notes/blob/main/module-3/notes.md)   | [module-3/output/](https://github.com/KjetilIN/IIKG3005-IaC-Notes/tree/main/module-3/output)                         |
+| 4          |   Modules |   Using modules in terraform                   |  [module-4/notes.md](https://github.com/KjetilIN/IIKG3005-IaC-Notes/blob/main/module-4/notes.md)   | [module-4/module-demo/](https://github.com/KjetilIN/IIKG3005-IaC-Notes/tree/main/module-4/module-demo)                         |
 
 
 
