@@ -20,3 +20,19 @@ How will you create this infrastructure with the knowledge from todays chapters:
     - Hard coded value in the main?
     - Use of variables with the -var flag in the command line?
     - Use of .tfvar files?
+ 
+# Solution
+
+Was able to create the VNET with a public IP and the VM connected.
+Some of the issues were:
+
+- What resouces should be grouped together?
+- How to create a good flow between the modules.
+
+Below you can see the result from the azure portal;
+
+![Screenshot from 2023-09-11 17-08-59](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/b5205216-337e-4e5d-86aa-82627134b02c)
+
+And here you can see that I am inside the VM that I created;
+
+![Screenshot from 2023-09-11 17-06-58](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/69fbf6c0-8814-42cd-9e59-d1ac9f6b44ce)
