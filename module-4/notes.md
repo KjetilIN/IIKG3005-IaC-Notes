@@ -22,3 +22,14 @@ Modules are containers for multiple resources that are used together.
 Every Terraform configuration has a root module. The root module can call other modules to include their resources in the configuration.
 
 You can also publish modules for others to use. 
+
+## Built-in Terraform Functions 
+
+Terraform includes a lot of built-in functions that can be called from the configurations files. 
+
+For numeric functions you have abs, ceil. floor, log, min , max, parseint and more 
+
+For string functions you have lower, join , trim functions and a lot more
+
+There are a lot of functions that are useful. For more read the documentation provided by terraform:
+https://developer.hashicorp.com/terraform/language/functions/
