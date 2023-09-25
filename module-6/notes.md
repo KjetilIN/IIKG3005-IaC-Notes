@@ -52,3 +52,15 @@ For using terraform some githubs secrets that are needed:
 - AZURE_CREDENTIALS => har alle secrets i seg i en json
 - AZURE_SUBSCRIPTION_ID
 - AZURE_TENANT_ID
+
+# Terraform Backend
+
+A backend defines where Terraform stores its state data files. 
+Terraform must store state about your managed infrastructure and configuration. 
+This state is used to map real resources in configuration.
+
+By default terraform uses a backend called local, and stores state locally on disk. 
+Backends however are stored remotely. 
+
+Azurerm backend stores the current state with the given key within the blob container within the Blob storage account. 
+This backend supports locking state files anc consistency testing. Meaning that multiple people can work on the same state file, but there will be only allowed one change at the time, because the state file is locked. 
