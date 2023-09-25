@@ -42,5 +42,13 @@ The backend will contain sensitive information, therefore we can add them as sec
 To add a new secret:
     1. Go to settings > Secrets > Actions
     2. Click create new secret
-    3. Give the secret a name.
+    3. Give the secret a name and the correct value
         - Azure naming convention is names that are formatted like this => AZURE_CLIENT_ID  
+
+For using terraform some githubs secrets that are needed:
+
+- AZURE_CLIENT_ID
+- AZURE_CLIENT_SECRET
+- AZURE_CREDENTIALS => har alle secrets i seg i en json
+- AZURE_SUBSCRIPTION_ID
+- AZURE_TENANT_ID
