@@ -22,3 +22,25 @@ Terraform Backend:
 
 Terraform Workspaces
 - One or multiple environments created by the same repository
+
+
+# Terraform Environment variables   
+
+You can create your own environment variables by adding them to your session.
+This is an example of this;
+
+```terminal
+export NAME_OWNER="Kjetil"
+
+```
+
+To view the environment variables we can just type `env` in the terminal.
+
+# Github Secrets 
+
+The backend will contain sensitive information, therefore we can add them as secrets in the repository
+To add a new secret:
+    1. Go to settings > Secrets > Actions
+    2. Click create new secret
+    3. Give the secret a name.
+        - Azure naming convention is names that are formatted like this => AZURE_CLIENT_ID  
