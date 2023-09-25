@@ -83,3 +83,8 @@ F.exp
 
 
 **NB** Note that a vault is different from a key or secret. There is separate HC code for defining a secret!
+
+
+# Azure Storage Account Access Keys
+
+When you create a storage account, Azure generates two access keys for that account. These keys can be used to authorize access to your data. It is recommended to use Key Vault to manage access keys.  
