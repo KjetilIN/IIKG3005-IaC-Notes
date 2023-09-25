@@ -1,0 +1,8 @@
+az login --service-principal --username USERNAME --password PASS --tenant TENANT
+
+{
+  "appId": "",
+  "displayName": "azure-cli-2023-09-25-11-55-35",
+  "password": "",
+  "tenant": ""
+}
