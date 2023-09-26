@@ -95,3 +95,46 @@ When we work with terraform, we work with collections of resources. Most of the 
 For instance, in a production environment we have a set of resources that may be different from development environment.
 
 The workspaces store each a state file, more specificity a file that can be used to backup the system. It also contains a record of the run activity. Including summary, logs and a reference to the changes that caused the run. 
+
+## How to create workspaces?
+
+To list all of the workspaces and see what workspace you are currently in use;
+
+```terminal
+terraform workspace list
+```
+
+To create a new workspace called dev;
+
+```terminal
+terraform workspace new dev
+```
+
+For switching to the dev workspace:
+
+```terminal
+terraform workspace select dev
+```
+
+## How to use workspace specific variables:
+
+Even though that you can create new workspaces and are in different workspaces when you apply the plan, you will still see the same variables getting deployed. The main reason for this is because the variables do not change based on the workspace. 
+
+Therefore we use workspace specific labels:
+
+```terraform
+locals{
+    # Getting the terraform workspace
+    workspace_suffix = terraform.workspace == "default" ? "" : "${terraform.workspace}"
+
+    #Using it in a variable
+    rg_name = "${var.rg_name}-${local.workspace_suffix}"
+}
+```
+
+This is really useful for having one repository that is able to change based on the workspace e.g the environment. 
+
+
+# Providers file
+
+For multiple providers, you could keep the information about the providers in a separate file. 
