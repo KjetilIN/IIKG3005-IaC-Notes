@@ -25,3 +25,22 @@ variable "enviroment" {
   description = "Type of envirement that the project is in"
 
 }
+
+# Variables for the root module
+
+variable "rg_name" {
+  type = string
+  description = "Name of the resource group for the root module and all child modules"
+  
+}
+
+variable "location" {
+  type = string
+  description = "Location of the project for the root module and all child modules"
+  
+}
+
+variable "vm_name" {
+  type = string
+  description = "Name of the virtual machine for the root module"
+}
