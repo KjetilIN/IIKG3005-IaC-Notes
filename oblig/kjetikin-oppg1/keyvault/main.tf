@@ -77,4 +77,4 @@ data "azurerm_key_vault_secret" "kvs_pass" {
 }
 
 # Storage account access key
-# TODO: Add storage account acces key 
+# TODO: figure this out
