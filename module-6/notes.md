@@ -88,3 +88,10 @@ F.exp
 # Azure Storage Account Access Keys
 
 When you create a storage account, Azure generates two access keys for that account. These keys can be used to authorize access to your data. It is recommended to use Key Vault to manage access keys.  
+
+# Workspaces 
+
+When we work with terraform, we work with collections of resources. Most of the organization work with different collection of resources.
+For instance, in a production environment we have a set of resources that may be different from development environment.
+
+The workspaces store each a state file, more specificity a file that can be used to backup the system. It also contains a record of the run activity. Including summary, logs and a reference to the changes that caused the run. 
