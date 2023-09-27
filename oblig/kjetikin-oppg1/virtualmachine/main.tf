@@ -20,11 +20,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
   size                = "Standard_F2"
 
   # Credentials for login to the VM
-  # TODO: Access credentials from a key vault 
-  admin_username                  = format("vm-" + var.Username)
+  admin_username                  = var.vm_username
   admin_password                  = var.vm_password
   disable_password_authentication = false 
 
+  # NIC ID 
   network_interface_ids = [ var.nic_id ]
 
   os_disk {

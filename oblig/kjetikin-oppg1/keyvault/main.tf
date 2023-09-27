@@ -55,26 +55,32 @@ resource "azurerm_key_vault" "kv" {
     ]
 
     secret_permissions = [
-      "Get",
+      "Get", "Set", "List",
     ]
 
     storage_permissions = [
-      "Get",
+      "Get", "Set", "List",
     ]
   }
 }
 
 # User name for the VM
-data "azurerm_key_vault_secret" "kvs_user" {
+resource "azurerm_key_vault_secret" "kvs_user" {
   name         = "kvs-user"
-  key_vault_id = data.azurerm_key_vault.kv.id
+  value = var.kvs_user
+  key_vault_id = azurerm_key_vault.kv.id
 }
 
 # Password for the VM
-data "azurerm_key_vault_secret" "kvs_pass" {
+resource "azurerm_key_vault_secret" "kvs_pass" {
   name         = "kvs-pass"
-  key_vault_id = data.azurerm_key_vault.kv.id
+  key_vault_id = azurerm_key_vault.kv.id
 }
 
 # Storage account access key
-# TODO: figure this out
+resource "azurerm_key_vault_secret" "st_accesskey" {
+  name = "st_accesskey"
+  value = var.st_accesskey
+  key_vault_id = azurerm_key_vault.kv.id
+  
+}
