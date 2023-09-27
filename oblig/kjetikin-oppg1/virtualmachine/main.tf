@@ -10,6 +10,9 @@ resource "azurerm_public_ip" "pip" {
   resource_group_name = azurerm_resource_group.rg-vm.name
   location            = azurerm_resource_group.rg-vm.location
   allocation_method   = "Static"
+
+  #Tags
+  tags = var.common_tags
 }
 
 # Virtual Machine - Linux by default
@@ -38,4 +41,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = "20_04-lts"
     version   = "latest"
   }
+
+  #Tags
+  tags = var.common_tags
 }
