@@ -21,6 +21,9 @@ resource "random_string" "random_string" {
 resource "azurerm_resource_group" "rg_network" {
   name     = var.rg_name
   location = var.rg_location
+
+  #Tags
+  tags = var.common_tags
 }
 
 # Network Securtiy Group
@@ -28,6 +31,9 @@ resource "azurerm_network_security_group" "nsg" {
   name                = format("nsg-",var.project_name,"-", random_string.random_string.result)
   location            = azurerm_resource_group.rg_network.location
   resource_group_name = azurerm_resource_group.rg_network.name
+
+  #Tags
+  tags = var.common_tags
 }
 
 # VNET - Virtual Network 
@@ -49,6 +55,9 @@ resource "azurerm_virtual_network" "vnet" {
     address_prefix = "10.0.2.0/24"
     security_group = azurerm_network_security_group.nsg.id
   }
+
+  #Tags
+  tags = var.common_tags
 }
 
 
@@ -64,4 +73,7 @@ resource "azurerm_network_interface" "nic" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id = var.public_ip_address_id
   }
+
+  #Tags
+  tags = var.common_tags
 }
