@@ -55,9 +55,28 @@ There is ways to avoid destroying a specific resource like a database, but gener
 To be able to plan and apply the code, you need a `terraform.tfvars` file. I have provided a sample of how the tfvars file could look. These are variables used for each module:
 
 ```tfvars
-# This is test
-rg_name="Test"
+# Locals Variables for common tags:
+company_name = "OperaTerra AS"
+billing_code = "b12002"
+department   = "it"
+environment  = "prod"
 
+# Project name
+project_name = "phoenix"
+
+# Location of all the resources
+location = "westeurope"
+
+# Resource group naming
+rg_kv_name      = "kvit"
+rg_network_name = "nwit"
+rg_st_name      = "stit"
+rg_vm_name      = "vmit"
+
+# Credentials for VM
+vm_name  = "webvm"
+kvs_user = "jakob"
+kvs_pass = "admin123"
 
 ```
 

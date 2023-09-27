@@ -20,9 +20,9 @@ variable "project_name" {
   description = "Name of the project"
 }
 
-variable "enviroment" {
+variable "environment" {
   type        = string
-  description = "Type of envirement that the project is in"
+  description = "Type of environment that the project is in"
 
 }
 
@@ -46,11 +46,24 @@ variable "rg_vm_name" {
 
 }
 
+variable "rg_st_name" {
+  type        = string
+  description = "Name of the resource group for the virtual machine module"
+}
+
+variable "rg_kv_name" {
+  type        = string
+  description = "Name of the resource group for the key vault"
+
+}
+
 variable "vm_name" {
   type        = string
   description = "Name of the virtual machine"
 
 }
+
+# Credentials for vm
 
 variable "kvs_user" {
   type        = string
@@ -64,13 +77,3 @@ variable "kvs_pass" {
   sensitive   = true
 }
 
-variable "rg_st_name" {
-  type        = string
-  description = "Name of the resource group for the virtual machine module"
-}
-
-variable "rg_kv_name" {
-  type        = string
-  description = "Name of the resource group for the key vault"
-
-}
