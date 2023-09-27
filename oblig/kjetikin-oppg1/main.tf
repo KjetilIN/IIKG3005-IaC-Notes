@@ -37,6 +37,9 @@ module "network" {
 module "virtaulmachine" {
   source = "./virtualmachine"
 
+  # Project name
+  project_name = local.common_tags.project_name
+
   # Resource group information
   rg_name     = var.rg_vm_name
   rg_location = var.location
@@ -78,7 +81,7 @@ module "keyvault" {
   project_name = local.common_tags.project_name
 
   # Resource group information
-  rg_kv_name     = var.rg_name
+  rg_kv_name     = var.rg_kv_name
   rg_kv_location = var.location
 
   # Secrets 

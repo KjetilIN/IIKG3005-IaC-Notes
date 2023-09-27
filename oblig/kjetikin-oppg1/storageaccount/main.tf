@@ -41,7 +41,4 @@ resource "azurerm_storage_container" "sc" {
   name                  = format("sc",lower(var.project_name), random_string.random_string.result)
   storage_account_name  = azurerm_storage_account.st.name
   container_access_type = "private"
-
-  #Tags
-  tags = var.common_tags
 }

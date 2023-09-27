@@ -82,6 +82,7 @@ resource "azurerm_key_vault_secret" "kvs_user" {
 # Password for the VM
 resource "azurerm_key_vault_secret" "kvs_pass" {
   name         = "kvs-pass"
+  value = var.kvs_pass
   key_vault_id = azurerm_key_vault.kv.id
 
   # Tags
@@ -90,7 +91,7 @@ resource "azurerm_key_vault_secret" "kvs_pass" {
 
 # Storage account access key
 resource "azurerm_key_vault_secret" "st_accesskey" {
-  name = "st_accesskey"
+  name = "st-accesskey"
   value = var.st_accesskey
   key_vault_id = azurerm_key_vault.kv.id
 

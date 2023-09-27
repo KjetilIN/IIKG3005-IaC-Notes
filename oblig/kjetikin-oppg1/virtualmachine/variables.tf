@@ -1,7 +1,11 @@
+variable "project_name" {
+  type = string
+  description = "Name of the project"
+}
+
 variable "rg_name" {
     type = string
     description = "Resource group name for the virtual machine module"
-  
 }
 
 variable "rg_location" {

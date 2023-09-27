@@ -6,9 +6,9 @@ resource "azurerm_resource_group" "rg_vm" {
 
 # Public IP adress for the VM
 resource "azurerm_public_ip" "pip" {
-  name                = format("pip-forvm-"+rg_name)
-  resource_group_name = azurerm_resource_group.rg-vm.name
-  location            = azurerm_resource_group.rg-vm.location
+  name                = format("pip-",lower(var.project_name))
+  resource_group_name = azurerm_resource_group.rg_vm.name
+  location            = azurerm_resource_group.rg_vm.location
   allocation_method   = "Static"
 
   #Tags
@@ -17,7 +17,7 @@ resource "azurerm_public_ip" "pip" {
 
 # Virtual Machine - Linux by default
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                = format("vm-", lower(var.vm_name)) # TODO: Check naming convention
+  name                = format("vm-", lower(var.vm_name))
   resource_group_name = azurerm_resource_group.rg_vm.name
   location            = azurerm_resource_group.rg_vm.location
   size                = "Standard_F2"
