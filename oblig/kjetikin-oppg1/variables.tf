@@ -28,19 +28,37 @@ variable "enviroment" {
 
 # Variables for the root module
 
-variable "rg_name" {
-  type = string
-  description = "Name of the resource group for the root module and all child modules"
-  
-}
-
 variable "location" {
   type = string
   description = "Location of the project for the root module and all child modules"
   
 }
 
+variable "rg_network_name" {
+  type = string
+  description = "Name of the resource group for the network module"
+  
+}
+
+variable "rg_vm_name" {
+  type = string
+  description = "Name of the resource group for the virtual machine module"
+  
+}
+
 variable "vm_name" {
   type = string
-  description = "Name of the virtual machine for the root module"
+  description = "Name of the virtual machine"
+  
+}
+
+variable "rg_st_name" {
+  type = string
+  description = "Name of the resource group for the virtual machine module"
+}
+
+variable "rg_kv_name" {
+  type = string
+  description = "Name of the resource group for the key vault"
+  
 }

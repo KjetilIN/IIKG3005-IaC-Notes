@@ -20,7 +20,7 @@ module "network" {
   project_name = local.common_tags.project_name
 
   # Resource group variables 
-  rg_name = var.rg_name
+  rg_name = var.rg_network_name
   rg_location = var.location
 
   # Public IP ID of the VM that the network should support 
@@ -32,7 +32,7 @@ module "virtaulmachine" {
   source = "./virtualmachine"
 
   # Resource group information
-  rg_name = var.rg_name
+  rg_name = var.rg_vm_name
   rg_location = var.location
 
   # Credentials for the vm 
@@ -53,7 +53,7 @@ module "storageaccount" {
   project_name = local.common_tags.project_name
 
   # Resource group information 
-  rg_st_name = var.rg_name
+  rg_st_name = var.rg_st_name
   rg_st_location = var.location
   
 }
