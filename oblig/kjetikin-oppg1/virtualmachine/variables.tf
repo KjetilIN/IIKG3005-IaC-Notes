@@ -32,3 +32,9 @@ variable "vm_password" {
     description = "Password for the vm"
   
 }
+
+variable "common_tags" {
+    type = map(string)
+    description = "Common tags for the resources in this module"
+  
+}

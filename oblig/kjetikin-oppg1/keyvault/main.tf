@@ -32,6 +32,9 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_resource_group" "rg_kv" {
   name     = var.rg_kv_name
   location = var.rg_kv_location
+
+  # Tags
+  tags = var.common_tags
 }
 
 # Key vault for holding our secrets
@@ -62,6 +65,8 @@ resource "azurerm_key_vault" "kv" {
       "Get", "Set", "List",
     ]
   }
+  # Tags
+  tags = var.common_tags
 }
 
 # User name for the VM
@@ -69,12 +74,18 @@ resource "azurerm_key_vault_secret" "kvs_user" {
   name         = "kvs-user"
   value = var.kvs_user
   key_vault_id = azurerm_key_vault.kv.id
+
+  # Tags
+  tags = var.common_tags
 }
 
 # Password for the VM
 resource "azurerm_key_vault_secret" "kvs_pass" {
   name         = "kvs-pass"
   key_vault_id = azurerm_key_vault.kv.id
+
+  # Tags
+  tags = var.common_tags
 }
 
 # Storage account access key
@@ -82,5 +93,8 @@ resource "azurerm_key_vault_secret" "st_accesskey" {
   name = "st_accesskey"
   value = var.st_accesskey
   key_vault_id = azurerm_key_vault.kv.id
+
+  # Tags
+  tags = var.common_tags
   
 }

@@ -25,6 +25,9 @@ module "network" {
 
   # Public IP ID of the VM that the network should support 
   pip_id = module.virtaulmachine.public_ip_address_id
+
+  # Tags
+  common_tags = local.common_tags
 }
 
 # Virtual machine module
@@ -43,6 +46,9 @@ module "virtaulmachine" {
   # The NIC ID for connecting the VM to the network
   nic_id = module.network.nic_id_output
 
+  # Tags
+  common_tags = local.common_tags
+
 }
 
 # Storage account module
@@ -55,6 +61,9 @@ module "storageaccount" {
   # Resource group information 
   rg_st_name     = var.rg_st_name
   rg_st_location = var.location
+
+  # Tags
+  common_tags = local.common_tags
 
 }
 
@@ -73,6 +82,9 @@ module "keyvault" {
   kvs_user     = var.kvs_pass
   kvs_pass     = var.kvs_pass
   st_accesskey = module.storageaccount.st_access_key_output
+
+  # Tags
+  common_tags = local.common_tags
 
 }
 

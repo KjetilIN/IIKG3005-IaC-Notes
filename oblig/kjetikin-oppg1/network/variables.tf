@@ -19,3 +19,9 @@ variable "pip_id" {
     description = "ID of the public IP adress for the NIC"
   
 }
+
+variable "common_tags" {
+    type = map(string)
+    description = "Common tags for the resources in this module"
+  
+}
