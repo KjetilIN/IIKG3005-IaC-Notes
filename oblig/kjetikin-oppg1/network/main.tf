@@ -65,16 +65,16 @@ resource "azurerm_virtual_network" "vnet" {
 resource "azurerm_subnet" "sn_1" {
   name           = format("snet-", var.project_name, "-", random_string.random_string.result)
   resource_group_name = azurerm_resource_group.rg_network.name
-  address_prefix = "10.0.1.0/24"
-  security_group = azurerm_network_security_group.nsg.id
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes = ["10.0.1.0/24"]
 }
 
 # Subnet nr 2
 resource "azurerm_subnet" "sn_2" {
   name           = format("snet-", var.project_name, "-", random_string.random_string.result)
   resource_group_name = azurerm_resource_group.rg_network.name
-  address_prefix = "10.0.2.0/24"
-  security_group = azurerm_network_security_group.nsg.id
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes = ["10.0.2.0/24"]
 }
 
 # Giving each subnet the same NSG
@@ -98,7 +98,7 @@ resource "azurerm_network_interface" "nic" {
     name                          = "ip-internal-config"
     subnet_id                     = azurerm_subnet.sn_1.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id = var.public_ip_address_id
+    public_ip_address_id = var.pip_id
   }
 
   #Tags

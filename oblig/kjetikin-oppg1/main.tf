@@ -46,8 +46,8 @@ module "virtaulmachine" {
 
   # Credentials for the vm 
   vm_name     = var.vm_name
-  vm_username = module.keyvault.vm_credentials[0]
-  vm_password = module.keyvault.vm_credentials[1]
+  vm_username = module.keyvault.vm_username
+  vm_password = module.keyvault.vm_pass
 
   # The NIC ID for connecting the VM to the network
   nic_id = module.network.nic_id_output
