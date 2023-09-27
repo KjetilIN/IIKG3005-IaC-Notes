@@ -39,7 +39,7 @@ resource "azurerm_resource_group" "rg_kv" {
 
 # Key vault for holding our secrets
 resource "azurerm_key_vault" "kv" {
-  name                        = format("kv-", lower(var.project_name),"-", random_string.random_string.result)
+  name                        = lower(format("kv-%s-%s-%s", var.project_name,var.rg_kv_location, random_string.random_string.result))
   location                    = azurerm_resource_group.rg_kv.location
   resource_group_name         = azurerm_resource_group.rg_kv.name
   enabled_for_disk_encryption = true
@@ -71,7 +71,7 @@ resource "azurerm_key_vault" "kv" {
 
 # User name for the VM
 resource "azurerm_key_vault_secret" "kvs_user" {
-  name         = "kvs-user"
+  name         = lower(format("kvs-%s-%s-user", var.project_name, var.rg_kv_location))
   value = var.kvs_user
   key_vault_id = azurerm_key_vault.kv.id
 
@@ -81,7 +81,7 @@ resource "azurerm_key_vault_secret" "kvs_user" {
 
 # Password for the VM
 resource "azurerm_key_vault_secret" "kvs_pass" {
-  name         = "kvs-pass"
+  name         = lower(format("kvs-%s-%s-pass", var.project_name, var.rg_kv_location))
   value = var.kvs_pass
   key_vault_id = azurerm_key_vault.kv.id
 
@@ -91,7 +91,7 @@ resource "azurerm_key_vault_secret" "kvs_pass" {
 
 # Storage account access key
 resource "azurerm_key_vault_secret" "st_accesskey" {
-  name = "st-accesskey"
+  name = lower(format("kvs-%s-%s-accesskey", var.project_name, var.rg_kv_location))
   value = var.st_accesskey
   key_vault_id = azurerm_key_vault.kv.id
 

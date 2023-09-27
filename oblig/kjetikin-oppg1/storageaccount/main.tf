@@ -25,7 +25,7 @@ resource "azurerm_resource_group" "rg_st" {
 
 # Storage account
 resource "azurerm_storage_account" "st" {
-  name                     = format("st",lower(var.project_name), random_string.random_string.result)
+  name                     = lower(format("st%s%s",var.project_name, random_string.random_string.result))
   resource_group_name      = azurerm_resource_group.rg_st.name
   location                 = azurerm_resource_group.rg_st.location
   account_tier             = "Standard"
@@ -37,8 +37,8 @@ resource "azurerm_storage_account" "st" {
 }
 
 # Storage container for the storage account 
-resource "azurerm_storage_container" "sc" {
-  name                  = format("sc",lower(var.project_name), random_string.random_string.result)
+resource "azurerm_storage_container" "cr" {
+  name                  = lower(format("cr%s%s",var.project_name, random_string.random_string.result))
   storage_account_name  = azurerm_storage_account.st.name
   container_access_type = "private"
 }

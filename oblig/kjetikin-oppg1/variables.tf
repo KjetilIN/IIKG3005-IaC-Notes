@@ -73,7 +73,7 @@ variable "kvs_user" {
 
 variable "kvs_pass" {
   type        = string
-  description = "Password for the VM"
+  description = "Password for the VM. Conditions:  Has lower characters, Has upper characters, Has a digit, Has a special character other than _"
   sensitive   = true
 }
 

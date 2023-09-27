@@ -7,9 +7,6 @@ terraform {
   }
 }
 
-# TODO: Fix naming convension with stage in name and instance 
-# TODO: Add basename (?)
-
 # For creating random ID with 3 characters 
 resource "random_string" "random_string" {
   length  = 3
@@ -28,7 +25,7 @@ resource "azurerm_resource_group" "rg_network" {
 
 # Network Securtiy Group
 resource "azurerm_network_security_group" "nsg" {
-  name                = format("nsg-",var.project_name,"-", random_string.random_string.result)
+  name                = lower(format("nsg-%s-%s-%s",var.project_name,var.rg_location , random_string.random_string.result))
   location            = azurerm_resource_group.rg_network.location
   resource_group_name = azurerm_resource_group.rg_network.name
 
@@ -51,7 +48,7 @@ resource "azurerm_network_security_group" "nsg" {
 
 # VNET - Virtual Network 
 resource "azurerm_virtual_network" "vnet" {
-  name                = format("vnet-",var.project_name,"-", random_string.random_string.result)
+  name                = lower(format("vnet-%s-%s-%s",var.project_name, var.rg_location , random_string.random_string.result))
   location            = azurerm_resource_group.rg_network.location
   resource_group_name = azurerm_resource_group.rg_network.name
   address_space       = ["10.0.0.0/16"]
@@ -63,7 +60,7 @@ resource "azurerm_virtual_network" "vnet" {
 
 # Subnet nr 1
 resource "azurerm_subnet" "sn_1" {
-  name           = format("snet-", var.project_name, "-", random_string.random_string.result)
+  name           = lower(format("snet-%s-%s-%s", var.project_name, var.rg_location , random_string.random_string.result))
   resource_group_name = azurerm_resource_group.rg_network.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes = ["10.0.1.0/24"]
@@ -71,7 +68,7 @@ resource "azurerm_subnet" "sn_1" {
 
 # Subnet nr 2
 resource "azurerm_subnet" "sn_2" {
-  name           = format("snet-", var.project_name, "-", random_string.random_string.result)
+  name           = lower(format("snet-%s-%s-%s", var.project_name, var.rg_location , random_string.random_string.result))
   resource_group_name = azurerm_resource_group.rg_network.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes = ["10.0.2.0/24"]
@@ -90,7 +87,7 @@ resource "azurerm_subnet_network_security_group_association" "ngs_snet_assoc_2" 
 
 # A network interface for the vnet
 resource "azurerm_network_interface" "nic" {
-  name                = format("nic-", var.project_name, "-", random_string.random_string.result)
+  name                = lower(format("nic-%s-%s-%s", var.project_name, var.rg_location ,random_string.random_string.result))
   location            = azurerm_resource_group.rg_network.location
   resource_group_name = azurerm_resource_group.rg_network.name
 
