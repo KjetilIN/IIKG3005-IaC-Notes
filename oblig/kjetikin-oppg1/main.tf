@@ -26,6 +26,9 @@ module "network" {
   # Public IP ID of the VM that the network should support 
   pip_id = module.virtaulmachine.public_ip_address_id
 
+  #IP adress that can access the SSH
+  allowed_ip_address = var.allowed_ip_address
+
   # Tags
   common_tags = local.common_tags
 }

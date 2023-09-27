@@ -78,5 +78,8 @@ vm_name  = "webvm"
 kvs_user = "jakob"
 kvs_pass = "admin123"
 
+# Allowed IP address
+allowed_ip_address = "128.0.0.1"
+
 ```
 

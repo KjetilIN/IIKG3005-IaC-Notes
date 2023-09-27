@@ -32,6 +32,19 @@ resource "azurerm_network_security_group" "nsg" {
   location            = azurerm_resource_group.rg_network.location
   resource_group_name = azurerm_resource_group.rg_network.name
 
+  #Security rules for ssh to given ip adress
+  security_rule {
+    name = "Allow_SSH_VM"
+    priority = 100
+    direction = "Inbound"
+    access = "Allow"
+    protocol = "Tcp"
+    source_port_range = "*"
+    destination_port_range = "*"
+    source_address_prefix = var.allowed_ip_address
+    destination_address_prefix = "*"
+  }
+
   #Tags
   tags = var.common_tags
 }

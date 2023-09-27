@@ -77,3 +77,11 @@ variable "kvs_pass" {
   sensitive   = true
 }
 
+# IP adress for accessing the vm 
+variable "allowed_ip_address" {
+  type        = string
+  description = "IP address that is allowed to SSH to the network"
+  sensitive   = true
+
+}
+

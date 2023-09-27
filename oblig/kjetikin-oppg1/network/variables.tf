@@ -20,6 +20,13 @@ variable "pip_id" {
   
 }
 
+variable "allowed_ip_address" {
+    type = string
+    description = "IP address that is allowed to SSH to the network"
+    sensitive = true
+  
+}
+
 variable "common_tags" {
     type = map(string)
     description = "Common tags for the resources in this module"
