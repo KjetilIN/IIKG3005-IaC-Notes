@@ -8,7 +8,12 @@ terraform {
 }
 
 provider "azurerm" {
-  features {
+  features { 
+    # Key vault features 
+    key_vault {
+      purge_soft_delete_on_destroy    = true
+      recover_soft_deleted_key_vaults = true
+    }
   }
 }
 
@@ -85,7 +90,7 @@ module "keyvault" {
   rg_kv_location = var.location
 
   # Secrets 
-  kvs_user     = var.kvs_pass
+  kvs_user     = var.kvs_user
   kvs_pass     = var.kvs_pass
   st_accesskey = module.storageaccount.st_access_key_output
 

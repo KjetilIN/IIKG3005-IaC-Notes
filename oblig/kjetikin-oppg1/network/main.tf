@@ -16,7 +16,7 @@ resource "random_string" "random_string" {
 
 # Resource group for the network module
 resource "azurerm_resource_group" "rg_network" {
-  name     = var.rg_name
+  name     = lower(format("rg-%s-%s-%s",var.rg_name,var.project_name, var.rg_location))
   location = var.rg_location
 
   #Tags
@@ -60,7 +60,7 @@ resource "azurerm_virtual_network" "vnet" {
 
 # Subnet nr 1
 resource "azurerm_subnet" "sn_1" {
-  name           = lower(format("snet-%s-%s-%s", var.project_name, var.rg_location , random_string.random_string.result))
+  name           = lower(format("snet-%s-%s-1", var.project_name, var.rg_location ))
   resource_group_name = azurerm_resource_group.rg_network.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes = ["10.0.1.0/24"]
@@ -68,7 +68,7 @@ resource "azurerm_subnet" "sn_1" {
 
 # Subnet nr 2
 resource "azurerm_subnet" "sn_2" {
-  name           = lower(format("snet-%s-%s-%s", var.project_name, var.rg_location , random_string.random_string.result))
+  name           = lower(format("snet-%s-%s-2", var.project_name, var.rg_location ))
   resource_group_name = azurerm_resource_group.rg_network.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes = ["10.0.2.0/24"]

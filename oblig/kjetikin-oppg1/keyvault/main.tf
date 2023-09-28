@@ -30,7 +30,7 @@ data "azurerm_client_config" "current" {}
 
 # Resource group for the keyvault resource 
 resource "azurerm_resource_group" "rg_kv" {
-  name     = var.rg_kv_name
+  name     = lower(format("rg-%s-%s-%s",var.rg_kv_name ,var.project_name, var.rg_kv_location))
   location = var.rg_kv_location
 
   # Tags
@@ -39,7 +39,7 @@ resource "azurerm_resource_group" "rg_kv" {
 
 # Key vault for holding our secrets
 resource "azurerm_key_vault" "kv" {
-  name                        = lower(format("kv-%s-%s-%s", var.project_name,var.rg_kv_location, random_string.random_string.result))
+  name                        = lower(format("kv-%s-%s", var.project_name, random_string.random_string.result))
   location                    = azurerm_resource_group.rg_kv.location
   resource_group_name         = azurerm_resource_group.rg_kv.name
   enabled_for_disk_encryption = true

@@ -16,7 +16,7 @@ resource "random_string" "random_string" {
 
 # Resource group for the storage account 
 resource "azurerm_resource_group" "rg_st" {
-  name     = var.rg_st_name
+  name     = lower(format("rg-%s-%s-%s", var.rg_st_name, var.project_name, var.rg_st_location))
   location = var.rg_st_location
 
   #Tags
@@ -30,6 +30,7 @@ resource "azurerm_storage_account" "st" {
   location                 = azurerm_resource_group.rg_st.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+  
 
   #Tags
   tags = var.common_tags

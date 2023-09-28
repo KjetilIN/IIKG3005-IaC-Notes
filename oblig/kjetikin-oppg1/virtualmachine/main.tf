@@ -17,7 +17,7 @@ resource "random_string" "random_string" {
 
 # Resource group for the virtual machine
 resource "azurerm_resource_group" "rg_vm" {
-    name = var.rg_name
+    name = lower(format("rg-%s-%s-%s", var.rg_name, var.project_name, var.rg_location))
     location = var.rg_location
 }
 
@@ -34,7 +34,7 @@ resource "azurerm_public_ip" "pip" {
 
 # Virtual Machine - Linux by default
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                = lower(format("vm-%s-%s", var.project_name, random_string.random_string))
+  name                = lower(format("vm-%s-%s", var.project_name, random_string.random_string.result))
   resource_group_name = azurerm_resource_group.rg_vm.name
   location            = azurerm_resource_group.rg_vm.location
   size                = "Standard_F2"
