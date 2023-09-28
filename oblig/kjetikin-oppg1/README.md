@@ -125,20 +125,59 @@ All of the commands use can be found in the **How to use terraform commands?** s
 
 We used the plan command to create a plan for the root module. It takes a couple of minutes, but no problem:
 
+![plan](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/ecdc281c-96d2-46fc-ae6f-16c26017a650)
+
+
 ### 2. Apply the plan
 
 This step does also take some time. Using the plan we just created, we apply the plan;
+
+![applying](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/db6e0578-d221-4f79-8744-258c4a7b79f7)
+
+
+![apply-complete](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/cc5a695d-188f-4b3a-97f4-b3510cda80b7)
+
 
 
 ### 3. Check that the resource groups has been created!
 
 After doing the terraform apply command, we got a success message. To view our project, we can first look at the resource groups, in Azure Portal;
 
+![resource-groups-created](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/79d1137e-549d-45ac-bc6e-3497989770c5)
+
+Here is the resource group for the storage account: 
+
+![rg-st](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/d4304d36-42af-4fab-9776-153b48a26554)
+
+Here is the resource group for the VM:
+
+![rg-vm](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/16705c64-6337-446d-8d5d-f58d6e8ed14b)
 
 
+### 4. View the network information.
 
-### 4. Login to the VM
+We can also see that there has been created two subnets in the VNET: 
 
-My `.tfvars` file looks the same as the one I provided in this readme. So therefor we know what the password should be. First we need the public IP for the VM. We can find it in Azure Portal when we click on the virtual machine. Then we login to with ssh.
-That went without any issue: 
+![sn](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/198cde70-6e52-4ee3-8dad-bd99633ef46b)
+
+We can also see that our costume SSH rule was also added as a rule in the NSG;
+
+![vm_securtiy_rule](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/1b96fc63-4728-440d-a5eb-75c3da6b2b06)
+
+The image below shows the network topology:
+
+![vnet-toplogy-with-tags](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/f2fc5ddd-1d5c-480b-a2ac-1c86f6c33033)
+
+
+### 5. Login to the VM
+
+My `.tfvars` file looks the same as the one I provided in this readme. So therefor we know what the password should be. First we need the public IP for the VM. We can find it in Azure Portal when we click on the virtual machine:
+
+![vm](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/179bdbd7-4e86-482f-9023-e23883008cd5)
+
+Then we login to with ssh. That went without any issue: 
+
+![Screenshot from 2023-09-28 18-14-36](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/fbe59b8d-cd0e-4346-b900-a5d955fe2554)
+
+
 
