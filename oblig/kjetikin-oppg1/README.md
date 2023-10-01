@@ -81,6 +81,9 @@ There is ways to avoid destroying a specific resource like a database, but gener
 
 ## Dependencies 
 
+Here is a list of all the dependencies the project has: 
+
+- hashicorp/random
 
 ## Example root terraform.tfvars file 
 
