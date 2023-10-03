@@ -1,3 +1,9 @@
+# Using locals to define a workspace variable
+locals {
+  workspace = terraform.workspace == "default" ? "" : "${terraform.workspace}"
+}
+
+
 resource "random_string" "random_string" {
     length = 8
     special = false
@@ -6,7 +12,7 @@ resource "random_string" "random_string" {
 
 # Create resouce group
 resource "azurerm_resource_group" "rg_web" {
-    name = var.rg_name
+    name = "${var.rg_name}-${local.workspace}"
     location = var.location
 }
 
@@ -31,7 +37,7 @@ resource "azurerm_storage_blob" "index_html" {
     storage_container_name = "$web" # Special function that allows for static website
     type = "Block"
     content_type = "text/html"
-    source_content = var.source_content # Content of the website here
+    source_content = "${var.source_content} <br> <h2> ${local.workspace}</h2>"  # Content of the website here
 }
 
 output "primary_web_endpoint" {
