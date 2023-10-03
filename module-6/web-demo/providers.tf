@@ -1,17 +1,17 @@
 terraform {
   required_providers {
     azurerm = {
-        source = "hashicorp/azurerm"
-        version = "3.73.0"
+      source  = "hashicorp/azurerm"
+      version = "3.73.0"
     }
   }
 
+  # Using an existing backend
   backend "azurerm" {
-    resource_group_name = "rg-backend-tfstate-dev"
-    storage_account_name = "sa1234"
+    resource_group_name = "kjetikin-backend"
+    storage_account_name = "ksabetfsopr0ue6r57"
     container_name = "tfstate"
     key = "web-demo.terraform.tfstate"
-    
   }
 }
 
