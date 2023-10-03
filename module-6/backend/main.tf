@@ -1,9 +1,16 @@
 terraform {
   required_providers {
     azurerm = {
-        source = "hashicorp/azurerm"
-        version = "3.73.0"
+      source  = "hashicorp/azurerm"
+      version = "3.73.0"
     }
+  }
+
+  backend "azurerm" {
+    resource_group_name = "kjetikin-backend"
+    storage_account_name = "ksabetfsopr0ue6r57"
+    container_name = "tfstate"
+    key = "backend.terraform.tfstate"
   }
 }
 
@@ -18,9 +25,9 @@ provider "azurerm" {
 
 # For creating random stings
 resource "random_string" "random_string" {
-  length = 10
+  length  = 10
   special = false
-  upper = false
+  upper   = false
 }
 
 
@@ -39,7 +46,7 @@ resource "azurerm_storage_account" "sa_backend" {
 }
 
 resource "azurerm_storage_container" "sa_backend" {
-  name                  = "vhds"
+  name                  = "tfstate"
   storage_account_name  = azurerm_storage_account.sa_backend.name
   container_access_type = "private"
 }
@@ -75,14 +82,14 @@ resource "azurerm_key_vault" "kv_backend" {
     ]
 
     storage_permissions = [
-      "Get","Set", "List", "Delete"
+      "Get", "Set", "List", "Delete"
     ]
   }
 }
 
 # A secret in the key vault, here the key that we are storing is the primary access key for the sa
 resource "azurerm_key_vault_secret" "sa_backend_accesskey" {
-  name         = var.sa_backend_accesskey_name
+  name         = "${lower(var.sa_backend_accesskey_name)}${random_string.random_string.result}"
   value        = azurerm_storage_account.sa_backend.primary_access_key
   key_vault_id = azurerm_key_vault.kv_backend.id
 }
