@@ -15,6 +15,10 @@ on:
         description: 'What action should be performed? (apply/destroy)'
         required: true
         default: 'apply'
+        type: choice
+        options:
+          - 'apply'
+          - 'destroy'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -48,11 +52,11 @@ jobs:
         working-directory: ${{ env.WORKING_DIR }} 
                     
       - name: 'Terraform apply'
-        if: github.event.inouts.action_type == 'apply*
+        if: github.event.inouts.action_type == 'apply'
         run: terraform apply --auto-approve
         working-directory: ${{ env.WORKING_DIR }} 
         
       - name: 'Terraform destroy'
-        if: github.event.inouts.action_type == 'destroy*
+        if: github.event.inouts.action_type == 'destroy'
         run: terraform destroy --auto-approve
         working-directory: ${{ env.WORKING_DIR }} 
