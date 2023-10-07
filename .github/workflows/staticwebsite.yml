@@ -44,10 +44,18 @@ jobs:
       - name: 'Terraform init'
         id: init
         run: terraform init
-        working-directory: ${{ env.WORKING_DIR }}          
+        working-directory: ${{ env.WORKING_DIR }}
+
+       # Will destroy if the input is destroy 
+      - name: 'Terraform destroy'
+        id: destroy
+        if: github.event.inouts.action_type == 'destroy'
+        run: terraform destroy --auto-approve
+        working-directory: ${{ env.WORKING_DIR }} 
 
       - name: 'Terraform plan'
         id: plan
+        if: github.event.inouts.action_type == 'apply'
         run: terraform plan
         working-directory: ${{ env.WORKING_DIR }} 
                     
@@ -57,8 +65,4 @@ jobs:
         run: terraform apply --auto-approve
         working-directory: ${{ env.WORKING_DIR }} 
         
-      - name: 'Terraform destroy'
-        id: destroy
-        if: github.event.inouts.action_type == 'destroy'
-        run: terraform destroy --auto-approve
-        working-directory: ${{ env.WORKING_DIR }} 
+
