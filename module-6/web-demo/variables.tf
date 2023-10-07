@@ -7,7 +7,7 @@ variable "location" {
 variable "rg_name" {
     type = string
     description = "Name of the resource group"
-    default = "myrg"
+    default = "web"
 }
 
 variable "sa_name" {

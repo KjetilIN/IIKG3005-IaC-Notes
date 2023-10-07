@@ -12,7 +12,7 @@ resource "random_string" "random_string" {
 
 # Create resouce group
 resource "azurerm_resource_group" "rg_web" {
-    name = "${var.rg_name}-${local.workspace}"
+    name = terraform.workspace == "default" ? "${var.rg_name}" : "${var.rg_name}-${local.workspace}"
     location = var.location
 }
 
