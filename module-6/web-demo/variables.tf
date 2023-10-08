@@ -13,7 +13,7 @@ variable "rg_name" {
 variable "sa_name" {
   type        = string
   description = "Storage account name"
-  default     = "saname"
+  default     = "sa"
 }
 
 variable "source_content" {
