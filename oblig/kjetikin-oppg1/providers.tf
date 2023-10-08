@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "azurerm" {
-  features { 
+  features {
     # Key vault features 
     key_vault {
       purge_soft_delete_on_destroy    = true
