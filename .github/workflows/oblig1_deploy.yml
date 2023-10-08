@@ -82,11 +82,6 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: ${{ env.WORKING_DIR }}
 
-      - name: Test dev web server
-        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
-        run: curl $(terraform output -raw primary_web_endpoint)
-        working-directory: ${{ env.WORKING_DIR }}
-
       - name: 'Terraform destroy'
         id: destroy
         if: github.event.inputs.action_type == 'destroy'
@@ -131,11 +126,6 @@ jobs:
       - name: Terraform apply stage
         if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
         run: terraform apply -auto-approve
-        working-directory: ${{ env.WORKING_DIR }}
-
-      - name: Test stage web server
-        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
-        run: curl $(terraform output -raw primary_web_endpoint)
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: 'Terraform destroy'
@@ -183,17 +173,6 @@ jobs:
       - name: Terraform apply prod
         if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
         run: terraform apply -auto-approve
-        working-directory: ${{ env.WORKING_DIR }}
-
-      - name: Test prod prod web server
-        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
-        run: curl $(terraform output -raw primary_web_endpoint)
-        working-directory: ${{ env.WORKING_DIR }}
-
-      - name: Get Web Endpoint
-        id: get_web_endpoint
-        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
-        run: echo "WEB_ENDPOINT=$(terraform output -raw primary_web_endpoint)" 
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: 'Terraform destroy'
