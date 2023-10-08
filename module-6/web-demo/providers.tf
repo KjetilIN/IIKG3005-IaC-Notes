@@ -8,16 +8,16 @@ terraform {
 
   # Using an existing backend
   backend "azurerm" {
-    resource_group_name = "kjetikin-backend"
+    resource_group_name  = "kjetikin-backend"
     storage_account_name = "ksabetfsopr0ue6r57"
-    container_name = "tfstate"
-    key = "web-demo.terraform.tfstate"
+    container_name       = "tfstate"
+    key                  = "web-demo.terraform.tfstate"
   }
 }
 
 provider "azurerm" {
-    features {
-      
-    }
+  features {
+
+  }
 }
 

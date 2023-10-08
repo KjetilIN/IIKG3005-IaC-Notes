@@ -1,30 +1,30 @@
 variable "location" {
-    type = string
-    description = "Location of the resource"
-    default = "westeurope"
+  type        = string
+  description = "Location of the resource"
+  default     = "westeurope"
 }
 
 variable "rg_name" {
-    type = string
-    description = "Name of the resource group"
-    default = "web"
+  type        = string
+  description = "Name of the resource group"
+  default     = "web"
 }
 
 variable "sa_name" {
-    type = string
-    description = "Storage account name"
-    default = "saname"
+  type        = string
+  description = "Storage account name"
+  default     = "saname"
 }
 
 variable "source_content" {
-    type = string
-    description = "Content of the website"
-    default     = "<h1>Made with Terraform - CI/CD</h1>"
+  type        = string
+  description = "Content of the website"
+  default     = "<h1>Made with Terraform - CI/CD</h1>"
 
 }
 
 variable "index_document" {
-    type = string
-    description = "Name of the index html document"
-    default = "index.html"
+  type        = string
+  description = "Name of the index html document"
+  default     = "index.html"
 }
