@@ -30,7 +30,7 @@ data "azurerm_client_config" "current" {}
 
 # Resource group for the keyvault resource 
 resource "azurerm_resource_group" "rg_kv" {
-  name     = lower(format("rg-%s-%s-%s",var.rg_kv_name ,var.project_name, var.rg_kv_location))
+  name     = lower(format("rg-%s-%s-%s",var.rg_kv_name ,var.project_name, var.environment))
   location = var.rg_kv_location
 
   # Tags
@@ -71,7 +71,7 @@ resource "azurerm_key_vault" "kv" {
 
 # User name for the VM
 resource "azurerm_key_vault_secret" "kvs_user" {
-  name         = lower(format("kvs-%s-%s-user", var.project_name, var.rg_kv_location))
+  name         = lower(format("kvs-%s-%s-user", var.project_name, var.environment))
   value = var.kvs_user
   key_vault_id = azurerm_key_vault.kv.id
 
@@ -81,7 +81,7 @@ resource "azurerm_key_vault_secret" "kvs_user" {
 
 # Password for the VM
 resource "azurerm_key_vault_secret" "kvs_pass" {
-  name         = lower(format("kvs-%s-%s-pass", var.project_name, var.rg_kv_location))
+  name         = lower(format("kvs-%s-%s-pass", var.project_name, var.environment))
   value = var.kvs_pass
   key_vault_id = azurerm_key_vault.kv.id
 
@@ -91,7 +91,7 @@ resource "azurerm_key_vault_secret" "kvs_pass" {
 
 # Storage account access key
 resource "azurerm_key_vault_secret" "st_accesskey" {
-  name = lower(format("kvs-%s-%s-accesskey", var.project_name, var.rg_kv_location))
+  name = lower(format("kvs-%s-%s-accesskey", var.project_name, var.environment))
   value = var.st_accesskey
   key_vault_id = azurerm_key_vault.kv.id
 

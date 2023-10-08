@@ -16,7 +16,7 @@ resource "random_string" "random_string" {
 
 # Resource group for the storage account 
 resource "azurerm_resource_group" "rg_st" {
-  name     = lower(format("rg-%s-%s-%s", var.rg_st_name, var.project_name, var.rg_st_location))
+  name     = lower(format("rg-%s-%s-%s", var.rg_st_name, var.project_name, var.environment))
   location = var.rg_st_location
 
   #Tags

@@ -20,12 +20,6 @@ variable "project_name" {
   description = "Name of the project"
 }
 
-variable "environment" {
-  type        = string
-  description = "Type of environment that the project is in"
-
-}
-
 # Variables for the root module
 
 variable "location" {

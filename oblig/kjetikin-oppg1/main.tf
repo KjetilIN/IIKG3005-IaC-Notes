@@ -1,28 +1,12 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "3.69.0"
-    }
-  }
-}
-
-provider "azurerm" {
-  features { 
-    # Key vault features 
-    key_vault {
-      purge_soft_delete_on_destroy    = true
-      recover_soft_deleted_key_vaults = true
-    }
-  }
-}
-
 # Network module
 module "network" {
   source = "./network"
 
   # Name of the project 
   project_name = local.common_tags.project_name
+
+  # Enviroment
+  environment = local.common_tags.environment
 
   # Resource group variables 
   rg_name     = var.rg_network_name
@@ -44,6 +28,9 @@ module "virtaulmachine" {
 
   # Project name
   project_name = local.common_tags.project_name
+
+  # Enviroment
+  environment = local.common_tags.environment
 
   # Resource group information
   rg_name     = var.rg_vm_name
@@ -69,6 +56,9 @@ module "storageaccount" {
   # Project name
   project_name = local.common_tags.project_name
 
+  # Enviroment
+  environment = local.common_tags.environment
+
   # Resource group information 
   rg_st_name     = var.rg_st_name
   rg_st_location = var.location
@@ -84,6 +74,9 @@ module "keyvault" {
 
   # Project name
   project_name = local.common_tags.project_name
+
+  # Enviroment
+  environment = local.common_tags.environment
 
   # Resource group information
   rg_kv_name     = var.rg_kv_name

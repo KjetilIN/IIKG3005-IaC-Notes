@@ -94,7 +94,6 @@ To be able to plan and apply the code, you need a `terraform.tfvars` file. I hav
 company_name = "OperaTerra AS"
 billing_code = "b12002"
 department   = "it"
-environment  = "prod"
 
 # Project name
 project_name = "phoenix"

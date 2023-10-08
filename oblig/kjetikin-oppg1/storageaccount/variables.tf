@@ -18,3 +18,9 @@ variable "common_tags" {
     description = "Common tags for the resources in this module"
   
 }
+
+variable "environment" {
+  type        = string
+  description = "Type of environment that the project is in"
+
+}

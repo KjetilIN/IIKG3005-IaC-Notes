@@ -17,13 +17,13 @@ resource "random_string" "random_string" {
 
 # Resource group for the virtual machine
 resource "azurerm_resource_group" "rg_vm" {
-    name = lower(format("rg-%s-%s-%s", var.rg_name, var.project_name, var.rg_location))
+    name = lower(format("rg-%s-%s-%s", var.rg_name, var.project_name, var.environment))
     location = var.rg_location
 }
 
 # Public IP adress for the VM
 resource "azurerm_public_ip" "pip" {
-  name                = lower(format("pip-%s-%s-%s",var.project_name, var.rg_location, random_string.random_string.result))
+  name                = lower(format("pip-%s-%s-%s",var.project_name, var.environment, random_string.random_string.result))
   resource_group_name = azurerm_resource_group.rg_vm.name
   location            = azurerm_resource_group.rg_vm.location
   allocation_method   = "Static"

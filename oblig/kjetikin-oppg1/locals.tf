@@ -4,6 +4,6 @@ locals {
     billing_code = var.billing_code
     department   = var.department
     project_name = var.project_name
-    environment  = var.environment
+    environment  = terraform.workspace == "default" ? "" : terraform.workspace
   }
 }
