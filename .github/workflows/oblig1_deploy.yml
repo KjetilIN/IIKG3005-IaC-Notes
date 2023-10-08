@@ -15,6 +15,46 @@ on:
           options:
             - 'apply'
             - 'destroy'
+        company_name:
+          description: 'Company Name'
+          default: "operraAs"
+          required: true
+        billing_code:
+          description: 'Billing Code'
+          default: "bc1234"
+          required: true
+        department:
+          description: 'Department'
+          default: "it"
+          required: true
+        location:
+          description: 'Location'
+          default: "westeurope"
+          required: true
+        rg_network_name:
+          description: 'RG Network Name'
+          default: "network"
+          required: true
+        rg_vm_name:
+          description: 'RG VM Name'
+          default: "vmlinux"
+          required: true
+        rg_st_name:
+          description: 'RG Storage Name'
+          default: "storage"
+          required: true
+        rg_kv_name:
+          description: 'RG Key Vault Name'
+          default: "vault"
+          required: true
+        vm_name:
+          description: 'VM Name'
+          default: "linux"
+          required: true
+        kvs_user:
+          description: 'Key Vault Secret: Username'
+          default: "admin"
+          required: true
 
 env:
   # Azure ENV
@@ -25,22 +65,19 @@ env:
   WORKING_DIR: ./oblig/kjetikin-oppg1
 
   # Variables for the terraform plan
-  TF_VAR_company_name: ${{ secrets.TF_VAR_company_name }}
-  TF_VAR_billing_code: ${{ secrets.TF_VAR_billing_code }}
-  TF_VAR_department: ${{ secrets.TF_VAR_department }}
-  TF_VAR_project_name: ${{ secrets.TF_VAR_project_name }}
-  TF_VAR_environment: ${{ secrets.TF_VAR_environment }}
-
-  TF_VAR_location: ${{ secrets.TF_VAR_location }}
-  TF_VAR_rg_network_name: ${{ secrets.TF_VAR_rg_network_name }}
-  TF_VAR_rg_vm_name: ${{ secrets.TF_VAR_rg_vm_name }}
-  TF_VAR_rg_st_name: ${{ secrets.TF_VAR_rg_st_name }}
-  TF_VAR_rg_kv_name: ${{ secrets.TF_VAR_rg_kv_name }}
-  TF_VAR_vm_name: ${{ secrets.TF_VAR_vm_name }}
-
-  TF_VAR_kvs_user: ${{ secrets.TF_VAR_kvs_user }}
-  TF_VAR_kvs_pass: ${{ secrets.TF_VAR_kvs_pass }}
-  TF_VAR_allowed_ip_address: ${{ secrets.TF_VAR_allowed_ip_address }}
+  TF_VAR_company_name: ${{ github.event.inputs.company_name }}
+  TF_VAR_billing_code: ${{ github.event.inputs.billing_code }}
+  TF_VAR_department: ${{ github.event.inputs.department }}
+  TF_VAR_project_name: "pheonix"
+  TF_VAR_location: ${{ github.event.inputs.location }}
+  TF_VAR_rg_network_name: ${{ github.event.inputs.rg_network_name }}
+  TF_VAR_rg_vm_name: ${{ github.event.inputs.rg_vm_name }}
+  TF_VAR_rg_st_name: ${{ github.event.inputs.rg_st_name }}
+  TF_VAR_rg_kv_name: ${{ github.event.inputs.rg_kv_name }}
+  TF_VAR_vm_name: ${{ github.event.inputs.vm_name }}
+  TF_VAR_kvs_user: ${{ github.event.inputs.kvs_user }}
+  TF_VAR_kvs_pass: ${{ secrets.PASS }}
+  TF_VAR_allowed_ip_address: ${{ secrets.IP }}
 
   
 # Runs a job for each stage. Create the stage if it does not exist
@@ -63,7 +100,6 @@ jobs:
           echo "TF_VAR_billing_code=${{ env.TF_VAR_billing_code }}" >> $GITHUB_ENV
           echo "TF_VAR_department=${{ env.TF_VAR_department }}" >> $GITHUB_ENV
           echo "TF_VAR_project_name=${{ env.TF_VAR_project_name }}" >> $GITHUB_ENV
-          echo "TF_VAR_environment=${{ env.TF_VAR_environment }}" >> $GITHUB_ENV
   
           echo "TF_VAR_location=${{ env.TF_VAR_location }}" >> $GITHUB_ENV
           echo "TF_VAR_rg_network_name=${{ env.TF_VAR_rg_network_name }}" >> $GITHUB_ENV
