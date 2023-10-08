@@ -37,7 +37,7 @@ resource "azurerm_storage_blob" "index_html" {
   storage_container_name = "$web" # Special function that allows for static website
   type                   = "Block"
   content_type           = "text/html"
-  source_content         = "${var.source_content} <br> <h2> ${local.workspace}</h2>" # Content of the website here
+  source_content         = "${var.source_content} <br> <h3> ${local.workspace}</h3>" # Content of the website here
 }
 
 output "primary_web_endpoint" {
