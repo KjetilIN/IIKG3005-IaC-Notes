@@ -50,6 +50,11 @@ jobs:
         id: plan
         run: terraform plan
         working-directory: ${{ env.WORKING_DIR }} 
+        
+      - name: 'Echo action_type'
+        id: echo
+        run: echo ${{ github.event.inputs.action_type }}
+        working-directory: ${{ env.WORKING_DIR }} 
                     
       - name: 'Terraform apply'
         id: apply
