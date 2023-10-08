@@ -27,30 +27,6 @@ on:
           description: 'Department'
           default: "it"
           required: true
-        location:
-          description: 'Location'
-          default: "westeurope"
-          required: true
-        rg_network_name:
-          description: 'RG Network Name'
-          default: "network"
-          required: true
-        rg_vm_name:
-          description: 'RG VM Name'
-          default: "vmlinux"
-          required: true
-        rg_st_name:
-          description: 'RG Storage Name'
-          default: "storage"
-          required: true
-        rg_kv_name:
-          description: 'RG Key Vault Name'
-          default: "vault"
-          required: true
-        vm_name:
-          description: 'VM Name'
-          default: "linux"
-          required: true
         kvs_user:
           description: 'Key Vault Secret: Username'
           default: "admin"
@@ -69,12 +45,12 @@ env:
   TF_VAR_billing_code: ${{ github.event.inputs.billing_code }}
   TF_VAR_department: ${{ github.event.inputs.department }}
   TF_VAR_project_name: "pheonix"
-  TF_VAR_location: ${{ github.event.inputs.location }}
-  TF_VAR_rg_network_name: ${{ github.event.inputs.rg_network_name }}
-  TF_VAR_rg_vm_name: ${{ github.event.inputs.rg_vm_name }}
-  TF_VAR_rg_st_name: ${{ github.event.inputs.rg_st_name }}
-  TF_VAR_rg_kv_name: ${{ github.event.inputs.rg_kv_name }}
-  TF_VAR_vm_name: ${{ github.event.inputs.vm_name }}
+  TF_VAR_location: ${{ vars.LOCATION }}
+  TF_VAR_rg_network_name: ${{ vars.RG_NETWORK_NAME }}
+  TF_VAR_rg_vm_name: ${{ vars.RG_VM_NAME }}
+  TF_VAR_rg_st_name: ${{ vars.RG_ST_NAME }}
+  TF_VAR_rg_kv_name: ${{ vars.RG_KV_NAME }}
+  TF_VAR_vm_name: ${{ vars.VM_NAME}}
   TF_VAR_kvs_user: ${{ github.event.inputs.kvs_user }}
   TF_VAR_kvs_pass: ${{ secrets.PASS }}
   TF_VAR_allowed_ip_address: ${{ secrets.IP }}
@@ -150,7 +126,6 @@ jobs:
           echo "TF_VAR_billing_code=${{ env.TF_VAR_billing_code }}" >> $GITHUB_ENV
           echo "TF_VAR_department=${{ env.TF_VAR_department }}" >> $GITHUB_ENV
           echo "TF_VAR_project_name=${{ env.TF_VAR_project_name }}" >> $GITHUB_ENV
-          echo "TF_VAR_environment=${{ env.TF_VAR_environment }}" >> $GITHUB_ENV
   
           echo "TF_VAR_location=${{ env.TF_VAR_location }}" >> $GITHUB_ENV
           echo "TF_VAR_rg_network_name=${{ env.TF_VAR_rg_network_name }}" >> $GITHUB_ENV
@@ -186,7 +161,7 @@ jobs:
     needs: stage_prod
     runs-on: ubuntu-latest
     environment: # Creates an enviroment for production
-      name: production
+      name: oblig_1_production
       url: ${{ steps.get_web_endpoint.outputs.WEB_ENDPOINT }} # replace deploy_prod and web_url with actual output variables
     steps:
       - name: Checkout
@@ -203,7 +178,6 @@ jobs:
           echo "TF_VAR_billing_code=${{ env.TF_VAR_billing_code }}" >> $GITHUB_ENV
           echo "TF_VAR_department=${{ env.TF_VAR_department }}" >> $GITHUB_ENV
           echo "TF_VAR_project_name=${{ env.TF_VAR_project_name }}" >> $GITHUB_ENV
-          echo "TF_VAR_environment=${{ env.TF_VAR_environment }}" >> $GITHUB_ENV
   
           echo "TF_VAR_location=${{ env.TF_VAR_location }}" >> $GITHUB_ENV
           echo "TF_VAR_rg_network_name=${{ env.TF_VAR_rg_network_name }}" >> $GITHUB_ENV
