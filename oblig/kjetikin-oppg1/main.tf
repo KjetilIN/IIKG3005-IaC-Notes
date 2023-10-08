@@ -49,7 +49,7 @@ module "virtaulmachine" {
 
 }
 
-# Storage account module
+# Storage Account module
 module "storageaccount" {
   source = "./storageaccount"
 
