@@ -58,7 +58,7 @@ jobs:
                     
       - name: 'Terraform apply'
         id: apply
-        if: github.event.inputs.action_type == 'apply'
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
         run: terraform apply --auto-approve
         working-directory: ${{ env.WORKING_DIR }} 
              # Will destroy if the input is destroy 
