@@ -12,13 +12,13 @@ resource "random_string" "random_string" {
 
 # Create resouce group
 resource "azurerm_resource_group" "rg_web" {
-  name     = terraform.workspace == "default" ? "${var.rg_name}" : "${var.rg_name}-${local.workspace}"
+  name     = terraform.workspace == "default" ? "${var.rg_name}${random_string.random_string.result}" : "${var.rg_name}${local.workspace}${random_string.random_string.result}"
   location = var.location
 }
 
 # Create storage account
 resource "azurerm_storage_account" "sa_web" {
-  name                     = terraform.workspace == "default" ? "${var.sa_name}${random_string.random_string.result}" : "${var.sa_name}${terraform.workspace}"
+  name                     = terraform.workspace == "default" ? "${var.sa_name}${random_string.random_string.result}" : "${var.sa_name}${terraform.workspace}${random_string.random_string.result}"
   resource_group_name      = azurerm_resource_group.rg_web.name
   location                 = azurerm_resource_group.rg_web.location
   account_tier             = "Standard"
