@@ -56,7 +56,7 @@ module "storageaccount" {
   # Project name
   project_name = local.common_tags.project_name
 
-  # Enviroment
+  # Environment
   environment = local.common_tags.environment
 
   # Resource group information 
