@@ -45,12 +45,12 @@ env:
   TF_VAR_billing_code: ${{ github.event.inputs.billing_code }}
   TF_VAR_department: ${{ github.event.inputs.department }}
   TF_VAR_project_name: "pheonix"
-  TF_VAR_location: ${{ github.env.LOCATION }}
-  TF_VAR_rg_network_name: ${{ github.env.RG_NETWORK_NAME }}
-  TF_VAR_rg_vm_name: ${{ github.env.RG_VM_NAME }}
-  TF_VAR_rg_st_name: ${{ github.env.RG_ST_NAME }}
-  TF_VAR_rg_kv_name: ${{ github.env.RG_KV_NAME }}
-  TF_VAR_vm_name: ${{ github.env.VM_NAME}}
+  TF_VAR_location: ${{ vars.LOCATION }}
+  TF_VAR_rg_network_name: ${{ vars.RG_NETWORK_NAME }}
+  TF_VAR_rg_vm_name: ${{ vars.RG_VM_NAME }}
+  TF_VAR_rg_st_name: ${{ vars.RG_ST_NAME }}
+  TF_VAR_rg_kv_name: ${{ vars.RG_KV_NAME }}
+  TF_VAR_vm_name: ${{ vars.VM_NAME}}
   TF_VAR_kvs_user: ${{ github.event.inputs.kvs_user }}
   TF_VAR_kvs_pass: ${{ secrets.PASS }}
   TF_VAR_allowed_ip_address: ${{ secrets.IP }}
@@ -61,6 +61,7 @@ env:
 jobs:
   dev_stage:
     runs-on: ubuntu-latest
+    environment: oblig_1_production
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -111,6 +112,7 @@ jobs:
   stage_prod:
     needs: dev_stage
     runs-on: ubuntu-latest
+    environment: oblig_1_production
     steps:
       - name: Checkout
         uses: actions/checkout@v3
