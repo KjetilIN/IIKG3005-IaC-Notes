@@ -11,7 +11,7 @@ terraform {
     resource_group_name  = "kjetikin-backend"
     storage_account_name = "ksabetfsopr0ue6r57"
     container_name       = "tfstate"
-    key                  = "oblig1.terraform.tfstate"
+    key                  = "oblig_1.terraform.tfstate"
   }
 }
 
