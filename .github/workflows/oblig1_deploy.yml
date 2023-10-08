@@ -33,6 +33,8 @@ on:
           required: true
 
 env:
+  name: oblig_1_production
+
   # Azure ENV
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
