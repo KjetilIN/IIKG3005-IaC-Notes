@@ -1,0 +1,207 @@
+# Workflow for oblig 1 
+name: Oblig 1 (apply/destroy)
+
+on:
+  push:
+    paths:
+      - 'oblig/kjetikin-oppg1/**'
+  workflow_dispatch:
+    inputs: 
+        action_type:
+          description: 'What action should be performed? (apply/destroy)'
+          required: true
+          default: 'apply'
+          type: choice
+          options:
+            - 'apply'
+            - 'destroy'
+
+env:
+  # Azure ENV
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  WORKING_DIR: ./oblig/kjetikin-oppg1
+
+  # Variables for the terraform plan
+  TF_VAR_company_name: ${{ secrets.TF_VAR_company_name }}
+  TF_VAR_billing_code: ${{ secrets.TF_VAR_billing_code }}
+  TF_VAR_department: ${{ secrets.TF_VAR_department }}
+  TF_VAR_project_name: ${{ secrets.TF_VAR_project_name }}
+  TF_VAR_environment: ${{ secrets.TF_VAR_environment }}
+
+  TF_VAR_location: ${{ secrets.TF_VAR_location }}
+  TF_VAR_rg_network_name: ${{ secrets.TF_VAR_rg_network_name }}
+  TF_VAR_rg_vm_name: ${{ secrets.TF_VAR_rg_vm_name }}
+  TF_VAR_rg_st_name: ${{ secrets.TF_VAR_rg_st_name }}
+  TF_VAR_rg_kv_name: ${{ secrets.TF_VAR_rg_kv_name }}
+  TF_VAR_vm_name: ${{ secrets.TF_VAR_vm_name }}
+
+  TF_VAR_kvs_user: ${{ secrets.TF_VAR_kvs_user }}
+  TF_VAR_kvs_pass: ${{ secrets.TF_VAR_kvs_pass }}
+  TF_VAR_allowed_ip_address: ${{ secrets.TF_VAR_allowed_ip_address }}
+
+  
+# Runs a job for each stage. Create the stage if it does not exist
+# No plan for each stage
+jobs:
+  dev_stage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Terraform init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+
+      # Configure the enviroment
+      - name: Configure Terraform environment
+        run: |
+          echo "TF_VAR_company_name=${{ env.TF_VAR_company_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_billing_code=${{ env.TF_VAR_billing_code }}" >> $GITHUB_ENV
+          echo "TF_VAR_department=${{ env.TF_VAR_department }}" >> $GITHUB_ENV
+          echo "TF_VAR_project_name=${{ env.TF_VAR_project_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_environment=${{ env.TF_VAR_environment }}" >> $GITHUB_ENV
+  
+          echo "TF_VAR_location=${{ env.TF_VAR_location }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_network_name=${{ env.TF_VAR_rg_network_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_vm_name=${{ env.TF_VAR_rg_vm_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_st_name=${{ env.TF_VAR_rg_st_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_kv_name=${{ env.TF_VAR_rg_kv_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_vm_name=${{ env.TF_VAR_vm_name }}" >> $GITHUB_ENV
+  
+          echo "TF_VAR_kvs_user=${{ env.TF_VAR_kvs_user }}" >> $GITHUB_ENV
+          echo "TF_VAR_kvs_pass=${{ env.TF_VAR_kvs_pass }}" >> $GITHUB_ENV
+          echo "TF_VAR_allowed_ip_address=${{ env.TF_VAR_allowed_ip_address }}" >> $GITHUB_ENV
+
+      - name: Terraform workspace select or create dev
+        run: terraform workspace select dev || terraform workspace new dev
+        working-directory: ${{ env.WORKING_DIR }}
+      
+      - name: Terraform apply dev
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Test dev web server
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: curl $(terraform output -raw primary_web_endpoint)
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: 'Terraform destroy'
+        id: destroy
+        if: github.event.inputs.action_type == 'destroy'
+        run: terraform destroy --auto-approve
+        working-directory: ${{ env.WORKING_DIR }} 
+
+  stage_prod:
+    needs: dev_stage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Terraform init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+
+      # Configure the enviroment
+      - name: Configure Terraform environment
+        run: |
+          echo "TF_VAR_company_name=${{ env.TF_VAR_company_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_billing_code=${{ env.TF_VAR_billing_code }}" >> $GITHUB_ENV
+          echo "TF_VAR_department=${{ env.TF_VAR_department }}" >> $GITHUB_ENV
+          echo "TF_VAR_project_name=${{ env.TF_VAR_project_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_environment=${{ env.TF_VAR_environment }}" >> $GITHUB_ENV
+  
+          echo "TF_VAR_location=${{ env.TF_VAR_location }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_network_name=${{ env.TF_VAR_rg_network_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_vm_name=${{ env.TF_VAR_rg_vm_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_st_name=${{ env.TF_VAR_rg_st_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_kv_name=${{ env.TF_VAR_rg_kv_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_vm_name=${{ env.TF_VAR_vm_name }}" >> $GITHUB_ENV
+  
+          echo "TF_VAR_kvs_user=${{ env.TF_VAR_kvs_user }}" >> $GITHUB_ENV
+          echo "TF_VAR_kvs_pass=${{ env.TF_VAR_kvs_pass }}" >> $GITHUB_ENV
+          echo "TF_VAR_allowed_ip_address=${{ env.TF_VAR_allowed_ip_address }}" >> $GITHUB_ENV
+        
+      - name: Terraform workspace select or create stage
+        run: terraform workspace select stage || terraform workspace new stage
+        working-directory: ${{ env.WORKING_DIR }}
+      
+      - name: Terraform apply stage
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Test stage web server
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: curl $(terraform output -raw primary_web_endpoint)
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: 'Terraform destroy'
+        id: destroy
+        if: github.event.inputs.action_type == 'destroy'
+        run: terraform destroy --auto-approve
+        working-directory: ${{ env.WORKING_DIR }} 
+  prod:
+    needs: stage_prod
+    runs-on: ubuntu-latest
+    environment: # Creates an enviroment for production
+      name: production
+      url: ${{ steps.get_web_endpoint.outputs.WEB_ENDPOINT }} # replace deploy_prod and web_url with actual output variables
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Terraform init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+
+      # Configure the enviroment
+      - name: Configure Terraform environment
+        run: |
+          echo "TF_VAR_company_name=${{ env.TF_VAR_company_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_billing_code=${{ env.TF_VAR_billing_code }}" >> $GITHUB_ENV
+          echo "TF_VAR_department=${{ env.TF_VAR_department }}" >> $GITHUB_ENV
+          echo "TF_VAR_project_name=${{ env.TF_VAR_project_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_environment=${{ env.TF_VAR_environment }}" >> $GITHUB_ENV
+  
+          echo "TF_VAR_location=${{ env.TF_VAR_location }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_network_name=${{ env.TF_VAR_rg_network_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_vm_name=${{ env.TF_VAR_rg_vm_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_st_name=${{ env.TF_VAR_rg_st_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_rg_kv_name=${{ env.TF_VAR_rg_kv_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_vm_name=${{ env.TF_VAR_vm_name }}" >> $GITHUB_ENV
+  
+          echo "TF_VAR_kvs_user=${{ env.TF_VAR_kvs_user }}" >> $GITHUB_ENV
+          echo "TF_VAR_kvs_pass=${{ env.TF_VAR_kvs_pass }}" >> $GITHUB_ENV
+          echo "TF_VAR_allowed_ip_address=${{ env.TF_VAR_allowed_ip_address }}" >> $GITHUB_ENV
+        
+      - name: Terraform workspace select or create prod
+        run: terraform workspace select prod || terraform workspace new prod
+        working-directory: ${{ env.WORKING_DIR }}
+      
+      - name: Terraform apply prod
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Test prod prod web server
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: curl $(terraform output -raw primary_web_endpoint)
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Get Web Endpoint
+        id: get_web_endpoint
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: echo "WEB_ENDPOINT=$(terraform output -raw primary_web_endpoint)" 
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: 'Terraform destroy'
+        id: destroy
+        if: github.event.inputs.action_type == 'destroy'
+        run: terraform destroy --auto-approve
+        working-directory: ${{ env.WORKING_DIR }} 
