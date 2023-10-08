@@ -15,22 +15,6 @@ on:
           options:
             - 'apply'
             - 'destroy'
-        company_name:
-          description: 'Company Name'
-          default: "operraAs"
-          required: true
-        billing_code:
-          description: 'Billing Code'
-          default: "bc1234"
-          required: true
-        department:
-          description: 'Department'
-          default: "it"
-          required: true
-        kvs_user:
-          description: 'Key Vault Secret: Username'
-          default: "admin"
-          required: true
 
 env:
   # Azure ENV
@@ -41,9 +25,9 @@ env:
   WORKING_DIR: ./oblig/kjetikin-oppg1
 
   # Variables for the terraform plan
-  TF_VAR_company_name: ${{ github.event.inputs.company_name }}
-  TF_VAR_billing_code: ${{ github.event.inputs.billing_code }}
-  TF_VAR_department: ${{ github.event.inputs.department }}
+  TF_VAR_company_name: ${{ vars.COMPANY_NAME }}
+  TF_VAR_billing_code: ${{ vars.BILLING_CODE }}
+  TF_VAR_department: ${{ vars.DEPARTMENT }}
   TF_VAR_project_name: "pheonix"
   TF_VAR_location: ${{ vars.LOCATION }}
   TF_VAR_rg_network_name: ${{ vars.RG_NETWORK_NAME }}
@@ -51,7 +35,7 @@ env:
   TF_VAR_rg_st_name: ${{ vars.RG_ST_NAME }}
   TF_VAR_rg_kv_name: ${{ vars.RG_KV_NAME }}
   TF_VAR_vm_name: ${{ vars.VM_NAME}}
-  TF_VAR_kvs_user: ${{ github.event.inputs.kvs_user }}
+  TF_VAR_kvs_user: ${{ vars.KVS_USER }}
   TF_VAR_kvs_pass: ${{ secrets.PASS }}
   TF_VAR_allowed_ip_address: ${{ secrets.IP }}
 
