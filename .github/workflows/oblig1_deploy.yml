@@ -136,9 +136,7 @@ jobs:
   prod:
     needs: stage_prod
     runs-on: ubuntu-latest
-    environment: # Creates an enviroment for production
-      name: oblig_1_production
-      url: ${{ steps.get_web_endpoint.outputs.WEB_ENDPOINT }} # replace deploy_prod and web_url with actual output variables
+    environment: oblig_1_production 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
