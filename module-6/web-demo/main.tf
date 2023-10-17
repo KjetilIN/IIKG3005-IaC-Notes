@@ -5,7 +5,7 @@ locals {
 
 
 resource "random_string" "random_string" {
-  length  = 8
+  length  = 9
   special = false
   upper   = false
 }
