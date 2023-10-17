@@ -21,6 +21,7 @@ resource "azurerm_storage_account" "sa_web" {
   name                     = terraform.workspace == "default" ? "${var.sa_name}${random_string.random_string.result}" : "${var.sa_name}${terraform.workspace}${random_string.random_string.result}"
   resource_group_name      = azurerm_resource_group.rg_web.name
   location                 = azurerm_resource_group.rg_web.location
+  min_tls_version          = "TLS1_2" # Fixes critical error in Terraform Config
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
