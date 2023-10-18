@@ -25,7 +25,7 @@ resource "azurerm_storage_account" "sa_web" {
   account_tier             = "Standard" 
   account_replication_type = "LRS"
 
-  # Storage account feature for static website
+  # Storage account feature for static website. Has a simple index.html document 
   static_website {
     index_document = var.index_document
   }
@@ -42,7 +42,7 @@ resource "azurerm_storage_blob" "index_html" {
 }
 
 # Output of the web endpoint so that the user can visit it. 
-# Also se this in Azure Portal inside the webcontainer
+# Also se this in Azure Portal inside the webcontainer.
 output "primary_web_endpoint" {
   value = azurerm_storage_account.sa_web.primary_web_endpoint
 
