@@ -22,7 +22,7 @@ resource "azurerm_storage_account" "sa_web" {
   resource_group_name      = azurerm_resource_group.rg_web.name
   location                 = azurerm_resource_group.rg_web.location
   min_tls_version          = "TLS1_2" # Fixes critical error in Terraform Config
-  account_tier             = "Standard"
+  account_tier             = "Standard" 
   account_replication_type = "LRS"
 
   # Storage account feature for static website
@@ -41,6 +41,7 @@ resource "azurerm_storage_blob" "index_html" {
   source_content         = "${var.source_content} <br> <h3> ${local.workspace}</h3>" # Content of the website here
 }
 
+# Output of the web endpoint 
 output "primary_web_endpoint" {
   value = azurerm_storage_account.sa_web.primary_web_endpoint
 
