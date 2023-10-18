@@ -98,8 +98,8 @@ jobs:
           labels: |
             automated pr
           reviewers: KjetilIN
-          branch: ${{ github.ref_name }}
-          base: main
+          base: ${{ github.ref_name }}
+          branch: main
 
       # Check that PR har been created
       - name: Check if PR created successfully
