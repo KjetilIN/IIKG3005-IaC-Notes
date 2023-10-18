@@ -41,7 +41,7 @@ resource "azurerm_storage_blob" "index_html" {
   source_content         = "${var.source_content} <br> <h3> ${local.workspace}</h3>" # Content of the website here
 }
 
-# Output of the web endpoint 
+# Output of the web endpoint so that the user can visit it. 
 output "primary_web_endpoint" {
   value = azurerm_storage_account.sa_web.primary_web_endpoint
 
