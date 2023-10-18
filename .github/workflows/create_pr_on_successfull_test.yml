@@ -10,6 +10,10 @@ on:
     paths:
       - 'module-6/web-demo/**'
 
+# Permissions for the workflow file
+permissions:
+    contents: write
+    pull-requests: write
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
