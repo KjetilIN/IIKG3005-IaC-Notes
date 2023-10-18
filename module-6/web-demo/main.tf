@@ -3,7 +3,7 @@ locals {
   workspace = terraform.workspace == "default" ? "" : "${terraform.workspace}"
 }
 
-# Random string of length 9 
+# Random string of length 9 to make it more secure
 resource "random_string" "random_string" {
   length  = 9
   special = false
