@@ -73,6 +73,7 @@ jobs:
         with:
           additional_args: '-m HIGH'
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          working_directory: ${{ env.WORKING_DIR }}  
 
   # Create a pull request if the checks above that the       
   createPullRequest:
