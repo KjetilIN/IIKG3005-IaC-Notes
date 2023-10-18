@@ -10,7 +10,7 @@ resource "random_string" "random_string" {
   upper   = false
 }
 
-# Create resouce group for the web project
+# Create resouce group for the web project.
 resource "azurerm_resource_group" "rg_web" {
   name     = terraform.workspace == "default" ? "${var.rg_name}${random_string.random_string.result}" : "${var.rg_name}${local.workspace}${random_string.random_string.result}"
   location = var.location
