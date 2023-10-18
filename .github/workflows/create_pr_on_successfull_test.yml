@@ -68,10 +68,11 @@ jobs:
         working-directory: ${{ env.WORKING_DIR }}          
 
       # Runs the terraform validate 
-      - name: Tsec of high vulnrabiliy only
-        id: validate
-        run: tfsec --minimum-severity HIGH
-        working-directory: ${{ env.WORKING_DIR }}
+      - name: Run Tfsec
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with:
+          minimum-severity: 'HIGH'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   # Create a pull request if the checks above that the       
   createPullRequest:
