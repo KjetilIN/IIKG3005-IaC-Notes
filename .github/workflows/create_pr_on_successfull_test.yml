@@ -98,5 +98,10 @@ jobs:
           labels: |
             automated pr
           reviewers: KjetilIN
+          branch: ${{ github.ref_name }}
+
+      # Check that PR har been created
+      - name: Check if PR created successfully
+        run: echo "PR URL - ${{ steps.cpr.outputs.url }}"
           
 
