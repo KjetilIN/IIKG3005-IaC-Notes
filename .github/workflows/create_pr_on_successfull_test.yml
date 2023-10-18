@@ -3,11 +3,14 @@ name: Terraform PR Create on Successfull Test (Web Demo)
 
 # Workflow will only run if pushed to other branches than main
 on:
+  # Triggers the workflow on push or pull request events
   push:
     branches-ignore:
-    -  main
+      - 'main' # Igonore branch
     paths:
-    - 'module-6/web-demo/**'
+      - 'module-6/web-demo/**'
+
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   validate:
