@@ -16,7 +16,7 @@ resource "azurerm_resource_group" "rg_web" {
   location = var.location
 }
 
-# Create storage account
+# Create storage account for the website 
 resource "azurerm_storage_account" "sa_web" {
   name                     = terraform.workspace == "default" ? "${var.sa_name}${random_string.random_string.result}" : "${var.sa_name}${terraform.workspace}${random_string.random_string.result}"
   resource_group_name      = azurerm_resource_group.rg_web.name
