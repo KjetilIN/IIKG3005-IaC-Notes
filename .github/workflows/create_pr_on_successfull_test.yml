@@ -88,6 +88,7 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v5
         with:
+          base: main
           title: '[PR-BOT] Update Web Demo Code'
           body: |
             Update report
@@ -97,4 +98,5 @@ jobs:
           labels: |
             automated pr
           reviewers: KjetilIN
+          
 
