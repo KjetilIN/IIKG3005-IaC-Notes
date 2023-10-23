@@ -1,4 +1,4 @@
-# Company name
+# Bame of the company that owns the resource
 variable "company_name" {
   type        = string
   description = "Name of the company"
