@@ -1,0 +1,152 @@
+# Name of the workflow
+name: Oblig 2 - Test/Validate and create PR
+
+# How the workflow is called
+on:
+  push:
+     branches-ignore:
+      - 'main' # Igonore branch
+     paths: 
+      - 'oblig/kjetikin-oppg2/**'
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  validate: 
+    name: 'Run terraform validate'
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      WORKING_DIR: ./oblig/kjetikin-oppg2
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Runs a single command using the runners shell
+      - name: Terraform init
+        id: init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}          
+
+      # Runs the terraform validate 
+      - name: Terraform validate
+        id: validate
+        run: terraform validate
+        working-directory: ${{ env.WORKING_DIR }}
+
+  # Tfsec 
+  tfsec:
+    name: 'Test configuration with tfsec'
+    needs: validate
+    runs-on: ubuntu-latest
+    
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      WORKING_DIR: ./oblig/kjetikin-oppg2
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under so your job can access it
+      - uses: actions/checkout@master
+
+       # Runs a single command using the runners shell
+      - name: Terraform init
+        id: init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}          
+
+      # Runs the terraform validate 
+      - name: Run Tfsec
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with:
+          additional_args: '-m HIGH'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          working_directory: ${{ env.WORKING_DIR }}  
+
+  tflint:
+      name: 'Check using tflint'
+      needs: validate
+      runs-on: ubuntu-latest
+      
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        WORKING_DIR: ./course materials/module07/demo-infra
+        
+      steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v4
+    
+        - name: Setup TFLint
+          uses: terraform-linters/setup-tflint@v4.0.0
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            tflint_wrapper: false # optional, default is false
+
+        - name: Init TFLint
+          run: tflint --init
+          env:
+            # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
+            GITHUB_TOKEN: ${{ github.token }}
+
+        - name: Run TFLint
+          run: tflint -f compact
+
+  pr:
+      name: 'Create PR'
+      needs: [validate, tflint, tfsec]
+      runs-on: ubuntu-latest
+      steps:
+      # Checkout
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      # Set the source branch 
+      - name: Set Source Branch
+        id: source_branch
+        run: echo "::set-output name=source_branch::$(echo $GITHUB_REF | awk -F'/' '{print $3}')"
+        
+      # Generating the content of the PR
+      - name: Generate Pull Request Title and Description
+        id: pr
+        run: |
+          # Get the commit messages from your branch since the last commit on the base branch.
+          commit_messages=$(git log --pretty=format:"%h %s" ${{ github.event.before }}..$GITHUB_SHA)
+  
+          # Define the base branch and branch to merge.
+          base_branch=main  # Replace with the target branch you want to merge into
+  
+          # Create a dynamic pull request title with branch name and date/time.
+          title="[$branch_to_merge] $(date +'%Y-%m-%d %H:%M:%S')"
+          
+          description="Auto-generated PR description based on recent commits:
+          
+          $commit_messages"
+  
+          echo "::set-output name=title::$title"
+          echo "::set-output name=description::$description"
+          echo "::set-output name=base_branch::$base_branch"
+          echo "::set-output name=branch_to_merge::$branch_to_merge"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Creating the PR
+      - name: Create pull request
+        run: |
+          gh pr create -B $base_branch -H $(echo ${{ steps.source_branch.outputs.source_branch }}) --title "${{ steps.pr.outputs.title }}" --body "${{ steps.pr.outputs.description }}"
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
