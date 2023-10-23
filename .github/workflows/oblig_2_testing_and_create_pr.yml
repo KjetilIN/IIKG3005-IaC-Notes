@@ -124,7 +124,7 @@ jobs:
            base_branch=main  # Replace with the target branch you want to merge into
     
            # Create a dynamic pull request title with branch name and date/time.
-           title="[$source_branch] PR for merge to main $(date +'%Y-%m-%d %H:%M)"
+           title="[$source_branch] PR for merge to main $(date +'%Y-%m-%d %H:%M')"
     
            description="Auto-generated PR description based on recent commits:
     
