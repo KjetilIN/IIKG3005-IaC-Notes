@@ -117,7 +117,7 @@ jobs:
       # Set the source branch 
       - name: Set Source Branch
         id: source_branch
-        run: echo "::set-output name=source_branch::$(echo $GITHUB_REF | awk -F'/' '{print $3}')"
+        run: echo "ource_branch=$(echo $GITHUB_REF | awk -F'/' '{print $3}')" >> $GITHUB_OUTPUT
         
       # Generating the content of the PR
       - name: Generate Pull Request Title and Description
@@ -137,9 +137,9 @@ jobs:
           $commit_messages"
   
           # Set the output variables in the specified format
-          echo "name=title::${title}" >> $GITHUB_OUTPUT
-          echo "name=description::${description}" >> $GITHUB_OUTPUT
-          echo "name=base_branch::${base_branch}" >> $GITHUB_OUTPUT
+          echo "title=$title" >> $GITHUB_OUTPUT
+          echo "description=$description" >> $GITHUB_OUTPUT
+          echo "base_branch=$base_branch" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
