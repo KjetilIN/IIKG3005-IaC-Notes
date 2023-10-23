@@ -123,8 +123,8 @@ jobs:
       - name: Generate Pull Request Title and Description
         id: pr
         run: |
-          # Get the commit messages from your branch since the last commit on the base branch.
-          commit_messages=$(git log --pretty=format:"%h %s" ${{ github.event.before }}..${{ github.sha }})
+          # Get the last 5 commits and add them to the description
+          commit_messages=$(git log --pretty=format:"%h %s" -n 5)
   
           # Define the base branch and branch to merge.
           base_branch=main  # Replace with the target branch you want to merge into
