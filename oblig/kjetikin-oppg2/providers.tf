@@ -8,7 +8,7 @@ terraform {
 
   # Using an existing backend
   backend "azurerm" {
-    resource_group_name  = "kjetikin-backend" 
+    resource_group_name  = "kjetikin-backend"
     storage_account_name = "ksabetfsopr0ue6r57" # Personal storage account for storing state files
     container_name       = "tfstate" # Container for the tfstate files
     key                  = "oblig-2-web-app.terraform.tfstate" # State file for oblig 2
@@ -22,4 +22,3 @@ provider "azurerm" {
 
   }
 }
-
