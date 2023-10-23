@@ -124,7 +124,7 @@ jobs:
         id: pr
         run: |
           # Get the commit messages from your branch since the last commit on the base branch.
-          commit_messages=$(git log --pretty=format:"%h %s" ${{ github.event.before }}..$GITHUB_SHA)
+          commit_messages=$(git log --pretty=format:"%h %s" ${{ github.event.before }}..${{ github.sha }})
   
           # Define the base branch and branch to merge.
           base_branch=main  # Replace with the target branch you want to merge into
