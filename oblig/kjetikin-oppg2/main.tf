@@ -1,4 +1,5 @@
 # Random string of length 9 to make it more secure. 
+# No uppercase or specialcases allowed. Intented to be unique.
 resource "random_string" "random_string" {
   length  = 9
   special = false
