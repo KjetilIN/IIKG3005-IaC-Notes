@@ -6,7 +6,7 @@ terraform {
     }
   }
 
-  # Using an existing backend
+  # Using an existing backend.
   backend "azurerm" {
     resource_group_name  = "kjetikin-backend"
     storage_account_name = "ksabetfsopr0ue6r57" # Personal storage account for storing state files
