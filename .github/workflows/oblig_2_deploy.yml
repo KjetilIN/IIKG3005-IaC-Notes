@@ -1,0 +1,125 @@
+# Name of the workflow
+name: Oblig 2 - Deploy to all environments
+
+# Only triggered by workflow dispatch
+on:
+  workflow_dispatch:
+    inputs: 
+        action_type:
+          description: 'What action should be performed? (apply/destroy)'
+          required: true
+          default: 'apply'
+          type: choice
+          options:
+            - 'apply'
+            - 'destroy'
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  WORKING_DIR: ./oblig/kjetikin-oppg2
+  
+# Runs a job for each stage. Create the stage if it does not exist
+# No plan for each stage
+jobs:
+  dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Terraform init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+        
+      - name: Terraform workspace select or create dev
+        run: terraform workspace select dev || terraform workspace new dev
+        working-directory: ${{ env.WORKING_DIR }}
+      
+      - name: Terraform apply dev
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Test dev web server
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: curl $(terraform output -raw primary_web_endpoint)
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: 'Terraform destroy'
+        id: destroy
+        if: github.event.inputs.action_type == 'destroy'
+        run: terraform destroy --auto-approve
+        working-directory: ${{ env.WORKING_DIR }} 
+
+  stage:
+    needs: dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Terraform init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+        
+      - name: Terraform workspace select or create stage
+        run: terraform workspace select stage || terraform workspace new stage
+        working-directory: ${{ env.WORKING_DIR }}
+      
+      - name: Terraform apply stage
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Test stage web server
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: curl $(terraform output -raw primary_web_endpoint)
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: 'Terraform destroy'
+        id: destroy
+        if: github.event.inputs.action_type == 'destroy'
+        run: terraform destroy --auto-approve
+        working-directory: ${{ env.WORKING_DIR }} 
+  prod:
+    needs: stage
+    runs-on: ubuntu-latest
+    environment: # Creates an enviroment for production
+      name: production
+      url: ${{ steps.get_web_endpoint.outputs.WEB_ENDPOINT }} # replace deploy_prod and web_url with actual output variables
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Terraform init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+        
+      - name: Terraform workspace select or create prod
+        run: terraform workspace select prod || terraform workspace new prod
+        working-directory: ${{ env.WORKING_DIR }}
+      
+      - name: Terraform apply prod
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Test prod prod web server
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: curl $(terraform output -raw primary_web_endpoint)
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Get Web Endpoint
+        id: get_web_endpoint
+        if: github.event.inputs.action_type == 'apply' || github.event.inputs.action_type == ''
+        run: echo "WEB_ENDPOINT=$(terraform output -raw primary_web_endpoint)" 
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform destroy
+        id: destroy
+        if: github.event.inputs.action_type == 'destroy'
+        run: terraform destroy --auto-approve
+        working-directory: ${{ env.WORKING_DIR }} 
