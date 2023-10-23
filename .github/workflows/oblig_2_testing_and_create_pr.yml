@@ -132,7 +132,7 @@ jobs:
            $commit_messages"
     
            # Creating the PR
-           gh pr create -B $base_branch -H $source_branch --title $title --body $description
+           gh pr create -B "$base_branch" -H "$source_branch" --title "$title" --body "$description"
 
          env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
