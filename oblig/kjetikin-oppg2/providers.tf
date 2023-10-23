@@ -15,6 +15,8 @@ terraform {
   }
 }
 
+# Using Azurerm to deploy the project.
+# No features provided.
 provider "azurerm" {
   features {
 
