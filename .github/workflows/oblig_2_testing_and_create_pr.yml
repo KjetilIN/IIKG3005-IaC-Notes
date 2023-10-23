@@ -1,14 +1,13 @@
 # Name of the workflow
 name: Oblig 2 - Test/Validate and create PR
 
-# How the workflow is called
+# Workflow is triggered by pushes to branches other than main
 on:
   push:
      branches-ignore:
       - 'main' # Igonore branch
      paths: 
       - 'oblig/kjetikin-oppg2/**'
-  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
