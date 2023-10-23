@@ -29,7 +29,7 @@ resource "azurerm_storage_account" "sa_web" {
     index_document = var.index_document
   }
 
-  # Tags added to the resource group
+  # Tags added to the resource group.
   tags = local.common_tags
 }
 
