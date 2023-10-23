@@ -136,16 +136,16 @@ jobs:
           
           $commit_messages"
   
-          echo "::set-output name=title::$title"
-          echo "::set-output name=description::$description"
-          echo "::set-output name=base_branch::$base_branch"
-          echo "::set-output name=branch_to_merge::$branch_to_merge"
+          echo "name=title::$title" >> $GITHUB_OUTPUT
+          echo "name=description::$description" >> $GITHUB_OUTPUT
+          echo "name=base_branch::$base_branch" >> $GITHUB_OUTPUT
+          echo "name=branch_to_merge::$branch_to_merge" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Creating the PR
       - name: Create pull request
         run: |
-          gh pr create -B $base_branch -H $(echo ${{ steps.source_branch.outputs.source_branch }}) --title "${{ steps.pr.outputs.title }}" --body "${{ steps.pr.outputs.description }}"
+          gh pr create -B $base_branch -H ${{ steps.source_branch.outputs.source_branch }} --title ${{ steps.pr.outputs.title }} --body ${{ steps.pr.outputs.description }}
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
