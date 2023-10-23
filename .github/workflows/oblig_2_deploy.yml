@@ -5,6 +5,7 @@ name: Oblig 2 - Deploy to all environments
 on:
   pull_request_review:
     types: [submitted]
+
   workflow_dispatch:
     inputs: 
         action_type:

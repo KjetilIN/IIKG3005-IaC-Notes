@@ -71,7 +71,6 @@ jobs:
         uses: aquasecurity/tfsec-action@v1.0.0
         with:
           additional_args: '-m HIGH'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           working_directory: ${{ env.WORKING_DIR }}  
 
   tflint:
@@ -125,7 +124,7 @@ jobs:
            base_branch=main  # Replace with the target branch you want to merge into
     
            # Create a dynamic pull request title with branch name and date/time.
-           title="[$source_branch] $(date +'%Y-%m-%d %H:%M:%S')"
+           title="[$source_branch] PR for merge to main $(date +'%Y-%m-%d %H:%M)"
     
            description="Auto-generated PR description based on recent commits:
     
