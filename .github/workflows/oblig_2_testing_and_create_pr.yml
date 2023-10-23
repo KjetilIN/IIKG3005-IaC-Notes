@@ -104,48 +104,35 @@ jobs:
 
         - name: Run TFLint
           run: tflint -f compact
-
-  pr:
-      name: 'Create PR'
-      needs: [validate, tflint, tfsec]
+          
+  pull-request:
+      name: 'Create pull request'
+      needs: [tfsec, tflint]
       runs-on: ubuntu-latest
-      steps:
-      # Checkout
-      - name: Check out the code
-        uses: actions/checkout@v2
 
-      # Set the source branch 
-      - name: Set Source Branch
-        id: source_branch
-        run: echo "ource_branch=$(echo $GITHUB_REF | awk -F'/' '{print $3}')" >> $GITHUB_OUTPUT
-        
-      # Generating the content of the PR
-      - name: Generate Pull Request Title and Description
-        id: pr
-        run: |
-          # Get the last 5 commits and add them to the description
-          commit_messages=$(git log --pretty=format:"%h %s" -n 5)
-  
-          # Define the base branch and branch to merge.
-          base_branch=main  # Replace with the target branch you want to merge into
-  
-          # Create a dynamic pull request title with branch name and date/time.
-          title="[$branch_to_merge] $(date +'%Y-%m-%d %H:%M:%S')"
-          
-          description="Auto-generated PR description based on recent commits:
-          
-          $commit_messages"
-  
-          # Set the output variables in the specified format
-          echo "title=$title" >> $GITHUB_OUTPUT
-          echo "description=$description" >> $GITHUB_OUTPUT
-          echo "base_branch=$base_branch" >> $GITHUB_OUTPUT
-        env:
+      steps: 
+       # Checkout
+       - name: Check out the code
+         uses: actions/checkout@v2
+    
+       - name: Create the pull Request
+         run: |
+           # Set the source branch
+           source_branch=$(echo $GITHUB_REF | awk -F'/' '{print $3}')
+    
+           # Generating the content of the PR
+           commit_messages=$(git log --pretty=format:"%h %s" -n 5)
+           base_branch=main  # Replace with the target branch you want to merge into
+    
+           # Create a dynamic pull request title with branch name and date/time.
+           title="[$source_branch] $(date +'%Y-%m-%d %H:%M:%S')"
+    
+           description="Auto-generated PR description based on recent commits:
+    
+           $commit_messages"
+    
+           # Creating the PR
+           gh pr create -B $base_branch -H $source_branch --title $title --body $description
+
+         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Creating the PR
-      - name: Create pull request
-        run: |
-          gh pr create -B $base_branch -H ${{ steps.source_branch.outputs.source_branch }} --title ${{ steps.pr.outputs.title }} --body ${{ steps.pr.outputs.description }}
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
