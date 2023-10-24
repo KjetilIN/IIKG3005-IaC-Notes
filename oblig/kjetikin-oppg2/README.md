@@ -5,6 +5,26 @@
 ## Dependencies
 
 ## Sample .tfvars file
+For deploying locally, here is an example `.tfvars` file:
+
+```env
+
+# Common tags
+company_name = "Bekk Consolting AS"
+billing_code = "b001"
+department   = "it"
+project_name = "octopus"
+
+
+# For the resources
+location       = "westeurope"
+rg_name        = "rgweb"
+sa_name        = "saweb"
+index_document = "index.html"
+source_content = "<h1> Oblig 2 - Project Octopus </h1>"
+
+
+```
 
 ## Workspaces 
 
