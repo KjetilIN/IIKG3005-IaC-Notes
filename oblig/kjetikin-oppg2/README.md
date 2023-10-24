@@ -62,8 +62,43 @@ They have by default 4 varibables each, and uses default variables for the other
 ![image](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/dd43f7d8-d1d3-4245-8a64-3f9795c0f6e6)
 
 
-
 ## Workflow files - Checks and deployment
+
+This project has two workflow files:
+
+1. Code validation before PR created - With the filename `oblig_2_testing_and_create_pr.yml`
+2. Deployment to all workspaces - With the filename `oblig_2_deploy.yml `
+
+**NB!** For the delivery, the workflow files is provided in a folder called `workflows` in the root folder.
+However, in my personal repository is the workflow files higher up - in my repository root folder.
+Paths in the workflow is therefore wrong. 
+
+My repository can be found here (should be private):
+https://github.com/KjetilIN/IIKG3005-IaC-Notes 
+
+### 1. Code validation
+
+**Triggered by:** push to the correct path to a branch that is not main
+
+**How it works:** The goal is to validate the code before we create a pull request. 
+First running terraform validate - a simple built-in validation of the configuration 
+This is a really simple test that we acpect to fail fast before we run the other tests.
+
+The next to tests runs in parralel - tfsec and tflint. Tfsec will only report HIGH or CRITICAL. 
+
+The last step is to create a pull request. It generetes all the content of the pull request itself:
+- Title is created based on the branch name and current time the workflow is runned
+- Description is created by taking the latest 5 commit messages using the `git log` command
+
+![workflow-create-pr](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/5dca31c9-a33e-4d15-a9af-e885dd6e90b7)
+
+
+### 2. Deployment
+
+**Triggered by:** Manualy in Github or when you aprove a pull request
+
+**How it works:** 
+
 
 ## Approval for production (Private and Public repository solutions)
 
