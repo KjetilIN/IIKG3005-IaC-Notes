@@ -36,7 +36,7 @@ env:
 jobs:
   dev:
     runs-on: ubuntu-latest
-    environment: oblig_2_production
+    environment: dev
     if: github.event.review.state == 'approved' || github.event.inputs.action_type == 'destroy' || github.event.inputs.action_type == 'apply'
     steps:
       - name: Checkout
@@ -77,7 +77,7 @@ jobs:
   stage:
     needs: dev
     runs-on: ubuntu-latest
-    environment: oblig_2_production
+    environment: stage
     if: github.event.review.state == 'approved' || github.event.inputs.action_type == 'destroy' || github.event.inputs.action_type == 'apply'
     steps:
       - name: Checkout
