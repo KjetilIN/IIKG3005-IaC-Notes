@@ -37,7 +37,7 @@ jobs:
   dev:
     runs-on: ubuntu-latest
     environment: oblig_2_production
-    if: github.event.review.state == 'approved'
+    if: github.event.review.state == 'approved' || github.event.inputs.action_type == 'destroy'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -78,7 +78,7 @@ jobs:
     needs: dev
     runs-on: ubuntu-latest
     environment: oblig_2_production
-    if: github.event.review.state == 'approved'
+    if: github.event.review.state == 'approved' || github.event.inputs.action_type == 'destroy'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -117,7 +117,7 @@ jobs:
   prod:
     needs: stage
     runs-on: ubuntu-latest
-    if: github.event.review.state == 'approved'
+    if: github.event.review.state == 'approved' || github.event.inputs.action_type == 'destroy'
     environment: # Creates an enviroment for production
       name: oblig_2_production
       url: ${{ steps.get_web_endpoint.outputs.WEB_ENDPOINT }} # replace deploy_prod and web_url with actual output variables
