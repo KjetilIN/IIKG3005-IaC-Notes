@@ -90,17 +90,29 @@ The last step is to create a pull request. It generetes all the content of the p
 - Title is created based on the branch name and current time the workflow is runned
 - Description is created by taking the latest 5 commit messages using the `git log` command
 
+Workflow overview:
+
 ![workflow-create-pr](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/5dca31c9-a33e-4d15-a9af-e885dd6e90b7)
+
+Pull request created: 
+
+![pr-created](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/44b9f034-7041-45d2-8d4c-5a610cee184c)
 
 
 ### 2. Deployment
 
-**Triggered by:** Manualy in Github or when you aprove a pull request
+**Triggered by:** Manualy in Github or when you approve a pull request
 
-**How it works:** 
+**How it works:** The goal of the workflow is to deploy to each workspace with their corresponding Github Environment variables.
+Each environment works the same way: initializing the terraform configuration, select the correct workspace (or create it) and apply the configuration.
+Each job is depedent on the last job to succed - if dev deployment failes, the workflow is cancelled.
 
+A simple test with curl is also added for each workspace. 
 
 ## Approval for production (Private and Public repository solutions)
+
+Github has 
+
 
 ## Successful deployment
 
