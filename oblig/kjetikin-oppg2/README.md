@@ -48,6 +48,9 @@ terraform workspace select dev
 ```
 
 ## Dependencies
+Here is a list of all the dependencies the project has: 
+
+- hashicorp/random
 
 ## Sample .tfvars file
 For deploying locally, here is an example `.tfvars` file:
@@ -156,7 +159,17 @@ A simple test with curl is also added for each workspace.
 
 ## Approval for production (Private and Public repository solutions)
 
-Github has 
+Github offers a review of deployments. Changing the `oblig_2_production` environment protection rules, we can make it only deploy when we approve it do do so. 
+To configure it, go to environment, select your environment and go to settings. Go to Deployment Protection rules and add a individual as a "Required reviewer".
+With the correct configuration you will have to approve any deployment to the environment mentioned: 
+
+![Screenshot from 2023-10-24 11-01-43](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/3ffa6e0d-555b-46a8-90cf-90a3d04e1603)
+
+
+This feature is only for public repositories or with Github Pro account. 
+For private repostiories, I added a step where the workflow creates an issue that needs a approval comment before running the workflow. This workes well. If the repsository is public, we can just remove this step from the workflow. Here is a screenshot of the issue created: 
+
+![ask-for-approval](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/f8dab107-b3e2-4979-840e-fb594d07961f)
 
 
 ## Successful deployment
