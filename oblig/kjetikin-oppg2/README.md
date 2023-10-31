@@ -213,5 +213,14 @@ Here is the static website and proofe of successfull deployment:
 
 ## (EXTRA) Destroy by manual trigger
 
+The same workflow file that deployes the infrastructure is also able to destroy the infrastructure with a manual trigger.
+When triggering it manually, you will get a windown that asks what you want to do:
+
+![image](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/4b2e46c5-3426-4ebf-acf2-f596e0ceef9f)
+
+After selecting destroy, the workflow will destroy all resources for the configuration. 
+After getting approvement, resources will be destroyed for all workspaces: 
+
+
 ![image](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/ad1f4071-e11a-4550-93f3-41751727ee5a)
 
