@@ -224,3 +224,13 @@ After getting approvement, resources will be destroyed for all workspaces:
 
 ![image](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/ad1f4071-e11a-4550-93f3-41751727ee5a)
 
+
+### (Extra) Github links
+
+In case of broken images or what to see the repsotiory in Github, see the links below:
+
+- This readme file in my Github Repostory: https://github.com/KjetilIN/IIKG3005-IaC-Notes/blob/main/oblig/kjetikin-oppg2/README.md
+- Github Oblig folder: https://github.com/KjetilIN/IIKG3005-IaC-Notes/blob/main/oblig/kjetikin-oppg2
+- Workflow file nr 1 - Code validation: https://github.com/KjetilIN/IIKG3005-IaC-Notes/blob/main/.github/workflows/oblig_2_testing_and_create_pr.yml
+- Workflow file nr 2 - Deployment: https://github.com/KjetilIN/IIKG3005-IaC-Notes/blob/main/.github/workflows/oblig_2_deploy.yml
+
