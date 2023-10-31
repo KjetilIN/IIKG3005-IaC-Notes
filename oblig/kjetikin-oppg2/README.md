@@ -1,6 +1,51 @@
 # Oblig 2 - Terraform CI/CD
 
+## About
+This is the secound oblig for the IIKG3005 course. The task is as follows: 
+
+> Use a small and simple known infrastructure (could be module 7 demo-infra from already known git repo: https://github.com/torivarm/iac-terraform.git). Set up secrets in your GitHub repository for Azure credentials and any other sensitive informasjon. Configure the Terraform AzureRM backend to store the state files in Azure Storage Account. Make sure the backend configuration supports workspaces by making the storage key dynamic based on the workspace name.
+
+This oblig has a small infrastructure: a static webpage. The main focus of this oblig, is the workflows and the workspaces. 
+The two workflow files checks the code, creates a pull request and deploys the infrastructure. 
+
 ## Terraform scripts
+
+### Initialize Terraform 
+To initialize a terraform configuration use this command;
+
+```terminal
+terraform init
+```
+Note that you have to run the command each time you make a changes. 
+
+### Create a plan
+To create a plan and NOT apply it use;
+```terminal
+terraform plan -out=main.tfplan
+```
+The plan does not have to be called `main`, so it could be called something specific, based on your need to store previous plans.
+
+### Apply a plan 
+When we say apply, we mean to create the resources that we have created a plan for. To apply a play, use this command with the a specific plan name
+
+```terminal
+terraform apply "main.tfplan"
+```
+
+### Destroy/remove infrastructure
+After deploying the resources you may wish to delete them. You can destroy all resources that is managed by a particular Terraform infrastructure using the following command;
+
+```terminal
+terraform destroy
+```
+### Select a workspace 
+This porject has three workspaces that one can change between. Reed more here: 
+https://github.com/KjetilIN/IIKG3005-IaC-Notes/edit/main/oblig/kjetikin-oppg2/README.md#workspaces
+
+To select a workspace simply use:
+```terminal
+terraform workspace select dev
+```
 
 ## Dependencies
 
