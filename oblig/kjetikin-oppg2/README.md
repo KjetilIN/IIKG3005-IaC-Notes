@@ -153,7 +153,7 @@ Pull request created:
 
 **How it works:** The goal of the workflow is to deploy to each workspace with their corresponding Github Environment variables.
 Each environment works the same way: initializing the terraform configuration, select the correct workspace (or create it) and apply the configuration.
-Each job is depedent on the last job to succed - if dev deployment failes, the workflow is cancelled.
+Each job is depedent on the last job to succed - if dev deployment failes, the workflow is cancelled. If dev was deployed, it tries to deploy stage. 
 
 A simple test with curl is also added for each workspace. 
 
@@ -165,13 +165,53 @@ With the correct configuration you will have to approve any deployment to the en
 
 ![Screenshot from 2023-10-24 11-01-43](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/3ffa6e0d-555b-46a8-90cf-90a3d04e1603)
 
+After approval, it will start deploying to the workspace: 
+
+![Screenshot from 2023-10-24 11-01-43](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/1bd72c31-41b6-46a4-9503-26eabf641942)
+
 
 This feature is only for public repositories or with Github Pro account. 
 For private repostiories, I added a step where the workflow creates an issue that needs a approval comment before running the workflow. This workes well. If the repsository is public, we can just remove this step from the workflow. Here is a screenshot of the issue created: 
 
 ![ask-for-approval](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/f8dab107-b3e2-4979-840e-fb594d07961f)
 
+After writing a comment, the Github Actions Bot will continue the workflow:
+
+![approved-bot-response](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/7839565c-c57d-4ec4-a33f-510627c4354c)
+
 
 ## Successful deployment
 
+### Github Screenshots 
+
+After all of the different workspaces have been deployed correctly - three static websites are deployed.
+In Github, you can see a successfull deployment here: 
+
+
+![image](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/ebfa716c-8516-4aaa-a007-77e474e9b1b7)
+
+**NB!** Notice that the pull request was triggered by a pull request review
+
+### Static Websites 
+Each page will render different content based on the workspace. 
+There will be an `<h3>` tag with the workspace name.
+
+Here is the static website and proofe of successfull deployment: 
+
+#### Dev
+
+![dev-deployed](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/2edd8c21-e902-4d78-9b72-34e9bf74ef3d)
+
+#### Stage
+
+![stag-deployed](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/65928cc2-9ce0-4179-8de4-25c119f2d7f1)
+
+#### Prod
+
+![prod-deployed](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/750f823a-2eb1-4863-8193-d663882ed523)
+
+
 ## (EXTRA) Destroy by manual trigger
+
+![image](https://github.com/KjetilIN/IIKG3005-IaC-Notes/assets/66110094/ad1f4071-e11a-4550-93f3-41751727ee5a)
+
