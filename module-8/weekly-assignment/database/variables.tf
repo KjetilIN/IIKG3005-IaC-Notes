@@ -36,7 +36,7 @@ variable "password_sql_server" {
   sensitive   = true
 
   validation {
-    condition     = length(var.username_sql_server) >= 12 && can(regex("^.*[!@#$%^&*()].*$", var.username_sql_server))
+    condition     = length(var.password_sql_server) >= 12 && can(regex("^.*[!@#$%^&*()].*$", var.password_sql_server))
     error_message = "Username must be at least 8 characters long and contain at least one special character."
   }
 
@@ -49,20 +49,6 @@ variable "databases" {
     max_size_gb = number
   }))
   description = "Map of databases and their configurations"
-
-
-  validation {
-    # Validation for ensuring that each database has a name specified
-    condition     = can(index(keys(var.databases), each.key)) && length(each.value.name) > 0
-    error_message = "Each database must have a 'name' specified."
-  }
-
-  validation {
-    # Validation for ensuring max_size_gb is more than 2
-    condition     = each.value.max_size_gb > 2
-    error_message = "The 'max_size_gb' for each database must be greater than 2."
-  }
-
   default = {}
 }
 
