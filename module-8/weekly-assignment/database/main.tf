@@ -13,7 +13,7 @@ resource "azurerm_resource_group" "rg" {
 
 # Storage Account for the databae
 resource "azurerm_storage_account" "example" {
-  name                     = lower(format("sa%s%s",var.project_name, random_string.random_string.result))
+  name                     = lower(format("sa%s%s", var.project_name, random_string.random_string.result))
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
@@ -30,16 +30,19 @@ resource "azurerm_mssql_server" "server" {
   administrator_login_password = var.password_sql_server
 }
 
-# SQL Database 
+# SQL Databases
 resource "azurerm_mssql_database" "db" {
-  name           = lower(format("sqldb-%s-%s-%s", var.project_name, var.database_name, random_string.random_string.result))
+  # Create a a database for each value in the databases 
+  for_each = var.databases
+
+  name           = lower(format("sqldb-%s-%s-%s", var.project_name, each.value["name"], random_string.random_string.result))
   server_id      = azurerm_mssql_server.server.id
-  collation      = "SQL_Latin1_General_CP1_CI_AS"
+  collation      = "SQL_WestEurope_DB_1"
   license_type   = "LicenseIncluded"
-  max_size_gb    = var.db_max_gb_usage
+  max_size_gb    = each.value["max_size_gb"]
   read_scale     = true
   sku_name       = "S0"
   zone_redundant = true
 
-  tags = var.common_tags
+  tags = each.value.common_tags
 }
