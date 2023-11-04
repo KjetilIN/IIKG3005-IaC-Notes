@@ -72,8 +72,8 @@ resource "azurerm_key_vault_secret" "kv_pass" {
 }
 
 # Store the connection string in the keyvault
-resource "azurerm_key_vault_secret" "example" {
+resource "azurerm_key_vault_secret" "kvs_connection_string" {
   name         = "sql-connectionstring"
-  value        = "Server=tcp:${azurerm_mssql_managed_instance.example.name}.database.windows.net,1433;Persist Security Info=False;User ID=${azurerm_key_vault_secret.kv_user.value};Password=${azurerm_key_vault_secret.kv_pass.value};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  value        = "Server=tcp:${azurerm_sql_server.server.fully_qualified_domain_name}.database.windows.net,1433;Persist Security Info=False;User ID=${azurerm_key_vault_secret.kv_user.value};Password=${azurerm_key_vault_secret.kv_pass.value};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   key_vault_id = var.key_vault_id
 }
