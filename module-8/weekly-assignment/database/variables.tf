@@ -30,18 +30,6 @@ variable "username_sql_server" {
 
 }
 
-variable "password_sql_server" {
-  type        = string
-  description = "Username for the SQL server"
-  sensitive   = true
-
-  validation {
-    condition     = length(var.password_sql_server) >= 12 && can(regex("^.*[!@#$%^&*()].*$", var.password_sql_server))
-    error_message = "Username must be at least 8 characters long and contain at least one special character."
-  }
-
-}
-
 # Name of the database
 variable "databases" {
   type = map(object({
@@ -52,3 +40,10 @@ variable "databases" {
   default = {}
 }
 
+
+# Variable for keyvault id
+variable "key_vault_id" {
+  type = string
+  description = "Keyvault ID"
+  sensitive = true
+}

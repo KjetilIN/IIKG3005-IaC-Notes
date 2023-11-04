@@ -1,3 +1,18 @@
+module "keyvault" {
+  # Source 
+  source = "./keyvault"
+
+  # Project config
+  project_name = var.project_name
+  rg_kv_name = "kv"
+  rg_kv_location = var.location
+  environment = local.common_tags.environment
+  
+  # Tags
+  common_tags = local.common_tags
+}
+
+
 module "database" {
   # Source of the Database module 
   source = "./database"
@@ -29,8 +44,8 @@ module "database" {
   }
   
   ## Login credentials 
-  username_sql_server = ""
-  password_sql_server = ""
+  username_sql_server = "sql-login-#1234"
+  key_vault_id = module.keyvault.key_vault_id
 
   # Common tags 
   common_tags = local.common_tags

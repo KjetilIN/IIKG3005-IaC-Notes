@@ -5,6 +5,17 @@ resource "random_string" "random_string" {
   upper   = false
 }
 
+# Resource for generating the password
+resource "random_string" "passgen" {
+  length  = 14
+  special = true
+  upper   = true
+  min_lower = 1
+  min_numeric = 1
+  min_special = 1
+  min_upper = 1
+}
+
 # Resource group
 resource "azurerm_resource_group" "rg" {
   name     = lower(format("rg-%s-database", var.project_name))
@@ -26,8 +37,8 @@ resource "azurerm_mssql_server" "server" {
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
   version                      = "12.0"
-  administrator_login          = var.username_sql_server
-  administrator_login_password = var.password_sql_server
+  administrator_login          = azurerm_key_vault_secret.kv_user.value
+  administrator_login_password = azurerm_key_vault_secret.kv_pass.value
 }
 
 # SQL Databases
@@ -45,4 +56,24 @@ resource "azurerm_mssql_database" "db" {
   zone_redundant = true
 
   tags = each.value.common_tags
+}
+
+# Store credentials in the keyvault
+resource "azurerm_key_vault_secret" "kv_user" {
+  name         = "SQL Server Username"
+  value        = var.username_sql_server
+  key_vault_id = var.key_vault_id
+}
+
+resource "azurerm_key_vault_secret" "kv_pass" {
+  name         = "SQL Server Username"
+  value        = random_string.passgen.result
+  key_vault_id = var.key_vault_id
+}
+
+# Store the connection string in the keyvault
+resource "azurerm_key_vault_secret" "example" {
+  name         = "sql-connectionstring"
+  value        = "Server=tcp:${azurerm_mssql_managed_instance.example.name}.database.windows.net,1433;Persist Security Info=False;User ID=${azurerm_key_vault_secret.kv_user.value};Password=${azurerm_key_vault_secret.kv_pass.value};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  key_vault_id = var.key_vault_id
 }
