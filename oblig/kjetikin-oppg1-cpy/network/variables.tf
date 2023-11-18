@@ -41,7 +41,7 @@ variable "subnets" {
       address_prefixes = ["10.0.2.0/24"]
     }]
   validation {
-    condition     = length(var.subnets) > 0
+    condition     = length(var.subnets) > 0 
     error_message = "At least one subnet must be specified."
   }
 }
@@ -51,4 +51,16 @@ variable "allowed_ip_address" {
     type = string
     description = "IP Adress that allows SSH to connect"
   
+}
+
+variable "pip_ids" {
+    type = list(string)
+    description = "The public IP  ID that should be assosiaded. By default no IP is given and no NIC is created for a subnet"
+    sensitive = true
+    default = [""]
+
+    validation {
+        condition     =  length(var.subnets) >= length(var.pip_ids)
+        error_message = "There must be more or equal amount of subnets for each public ip."
+    }
 }
