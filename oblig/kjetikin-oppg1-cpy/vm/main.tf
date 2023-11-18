@@ -9,20 +9,19 @@ resource "random_password" "pass" {
     length = 20
 }
 
-
 resource "azurerm_resource_group" "rg" {
     name     = format("rg-%s-%s-%s-%s", lower(var.project_name), var.environment,var.location, random_string.random_instance.result)
-    location = "West Europe"
+    location = var.location
 }
 
 // IP adress for the 
 resource "azurerm_public_ip" "pip" {
   name                = lower(format("pip-%s-%s-%s",var.project_name, var.environment, random_integer.random_instance.result))
-  resource_group_name = azurerm_resource_group.rg_vm.name
-  location            = azurerm_resource_group.rg_vm.location
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
   allocation_method   = "Static"
 
-  #Tags
+  // Tags
   tags = var.common_tags
 }
 
