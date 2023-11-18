@@ -15,6 +15,17 @@ resource "azurerm_resource_group" "rg" {
     location = "West Europe"
 }
 
+// IP adress for the 
+resource "azurerm_public_ip" "pip" {
+  name                = lower(format("pip-%s-%s-%s",var.project_name, var.environment, random_integer.random_instance.result))
+  resource_group_name = azurerm_resource_group.rg_vm.name
+  location            = azurerm_resource_group.rg_vm.location
+  allocation_method   = "Static"
+
+  #Tags
+  tags = var.common_tags
+}
+
 resource "azurerm_linux_virtual_machine" "vm" {
   name                = format("vm-ssh-%s-%s", var.environment,random_integer.random_instance.result)
   resource_group_name = azurerm_resource_group.rg.name
@@ -27,7 +38,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   admin_password                  = var.password
   disable_password_authentication = false 
 
-  # NIC ID 
+  // NIC ID 
   network_interface_ids = [ var.nic_id ]
 
   os_disk {
