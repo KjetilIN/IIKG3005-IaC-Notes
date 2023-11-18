@@ -5,12 +5,12 @@ resource "random_integer" "random_instance" {
 }
 
 // For generating password with length 20 
-resource "random_password" "pass" {
+resource "random_password" "random_password" {
     length = 20
 }
 
 resource "azurerm_resource_group" "rg" {
-    name     = format("rg-%s-%s-%s-%s", lower(var.project_name), var.environment,var.location, random_string.random_instance.result)
+    name     = format("rg-%s-%s-%s-%s", lower(var.project_name), var.environment,var.location, random_integer.random_instance.result)
     location = var.location
 }
 
@@ -34,7 +34,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   
   // Credentials 
   admin_username      = var.username 
-  admin_password                  = var.password
+  admin_password                  = var.password == null ? random_password.random_password.result : var.password
   disable_password_authentication = false 
 
   // NIC ID 
@@ -57,9 +57,9 @@ resource "azurerm_linux_virtual_machine" "vm" {
 // Storing the credentials in a keyvault 
 resource "azurerm_key_vault_secret" "username_secret" {
     // Check if the keyvault id has been provided
-    count = var.key_vault_id != "" ? 1 : 0
+    count = var.save_credentials_in_keyvault == true ? 1 : 0
 
-    name = "username_secret"
+    name = "username-secret"
     value = var.username
     key_vault_id = var.key_vault_id
   
@@ -67,9 +67,9 @@ resource "azurerm_key_vault_secret" "username_secret" {
 
 resource "azurerm_key_vault_secret" "pass_secret" {
     // Check if the keyvault id has been provided
-    count = var.key_vault_id != "" ? 1 : 0
+    count = var.save_credentials_in_keyvault == true ? 1 : 0
 
-    name = "pass_secret"
-    value = var.password
+    name = "pass-secret"
+    value = azurerm_linux_virtual_machine.vm.admin_password
     key_vault_id = var.key_vault_id
 }

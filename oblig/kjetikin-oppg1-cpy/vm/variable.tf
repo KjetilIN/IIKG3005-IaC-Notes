@@ -13,7 +13,6 @@ variable "location" {
 variable "environment" {
     type = string
     description = "Environment of the configuration"
-    default = terraform.workspace == "default" ? "none" : terraform.workspace
 }
 
 
@@ -31,11 +30,12 @@ variable "username" {
 variable "password" {
     type = string
     description = "The password to the virtual machine. Creates password by default"
-    default = random_password.random_password.result
+    default = null
     sensitive = true
 
     validation {
-      condition = pass.length >= 20
+      // If the password is null, we will be generating the password, else check if it is 20 chars long
+      condition = var.password == null ? true : length(var.password) >= 20
       error_message = "Password must be at least of length 20"
     }
 }
@@ -47,9 +47,17 @@ variable "nic_id" {
   
 }
 
+
+variable "save_credentials_in_keyvault" {
+    type = bool
+    description = "Condition that is true, if there is a keyvault that we want to store the login credentials to"
+    default = false
+  
+}
+
 variable "key_vault_id" {
     type = string
-    description = "The Key Vault that we store the credentials to"
+    description = "The Key Vault that we store the credentials to. The save_credentials_in_keyvault must also be true."
 
     // Default to empty string, meaning no kv secret is created.
     // This makes sure that the vm module is not dependent on the keyvault

@@ -1,7 +1,8 @@
 locals {
   common_tags = {
-    // Environment based on the workspace 
-    environment = var.environment
-
+    deparment   = "IT"
+    billingcode = "B001"
+    project     = var.project_name
+    environment  = terraform.workspace == "default" ? "none" : terraform.workspace
   }
 }

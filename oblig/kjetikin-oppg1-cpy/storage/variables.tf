@@ -13,7 +13,6 @@ variable "location" {
 variable "environment" {
     type = string
     description = "Environment of the configuration"
-    default = terraform.workspace == "default" ? "none" : terraform.workspace
 }
 
 
@@ -22,8 +21,16 @@ variable "common_tags" {
     description = "Tags to be added to the resources in the module" 
 }
 
-variable "key_vaul_id" {
+
+variable "store_access_key_in_key_vault" {
+    type = bool
+    description = "True if the access key should be stored in the key vault provided. False by default"
+    default = false
+}
+
+
+variable "key_vault_id" {
     type = string
-    description = "Keyvault that were the access key is stored. Does not store it if none is given"
-    default = ""
+    description = "Keyvault that were the access key is stored. (Optional, but required if store_access_key_in_key_vault is set to true )"
+    default = null
 }

@@ -1,6 +1,6 @@
 // Network Securtiy Group
 resource "azurerm_network_security_group" "nsg" {
-  name                = lower(format("nsg-%s-%s-%s",var.project_name,var.environment , random_string.random_instance.result))
+  name                = lower(format("nsg-%s-%s-%s",var.project_name,var.environment , random_integer.random_instance.result))
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -13,7 +13,7 @@ resource "azurerm_network_security_group" "nsg" {
     protocol = "Tcp"
     source_port_range = "*"
     destination_port_range = "*"
-    source_address_prefix = var.allowed_ip_address
+    source_address_prefix = var.public_ip_to_host
     destination_address_prefix = "*"
   }
 

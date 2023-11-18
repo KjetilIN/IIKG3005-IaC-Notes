@@ -1,5 +1,16 @@
-variable "environment" {
+variable "project_name" {
   type        = string
-  description = "Environment of the configuration"
-  default     = terraform.workspace == "default" ? "none" : terraform.workspace
+  description = "Project Name"
+}
+
+variable "location" {
+  type        = string
+  description = "Location of the resource group"
+  default     = "westeurope"
+
+}
+
+variable "vm_user_name" {
+  type        = string
+  description = "Username for the VM"
 }

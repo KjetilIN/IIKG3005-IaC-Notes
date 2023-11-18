@@ -13,7 +13,6 @@ variable "location" {
 variable "environment" {
     type = string
     description = "Environment of the configuration"
-    default = terraform.workspace == "default" ? "none" : terraform.workspace
 }
 
 
@@ -47,7 +46,7 @@ variable "subnets" {
 }
 
 
-variable "allowed_ip_address" {
+variable "public_ip_to_host" {
     type = string
     description = "IP Adress that allows SSH to connect"
   
@@ -58,9 +57,4 @@ variable "pip_ids" {
     description = "The public IP  ID that should be assosiaded. By default no IP is given and no NIC is created for a subnet"
     sensitive = true
     default = [""]
-
-    validation {
-        condition     =  length(var.subnets) >= length(var.pip_ids)
-        error_message = "There must be more or equal amount of subnets for each public ip."
-    }
 }

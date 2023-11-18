@@ -1,5 +1,5 @@
 // Random generation
-resource "random_integer" "random_instance" {
+resource "random_integer" "random_integer" {
     min = 1
     max = 5000
 }
@@ -9,12 +9,12 @@ data "azurerm_client_config" "current" {}
 
 // Resource group for th 
 resource "azurerm_resource_group" "rg" {
-  name     = format("rg-%s-%s-%s-%s", lower(var.project_name), var.environment,var.location, random_string.random_instance.result)
+  name     = format("rg-%s-%s-%s-%s", lower(var.project_name), var.environment,var.location, random_integer.random_integer.result)
   location = "West Europe"
 }
 
 resource "azurerm_key_vault" "kv" {
-  name                        = format("kv-%s-%s-%s-%s", lower(var.project_name), var.environment,var.location, random_string.random_instance.result)
+  name                        = format("kv-%s-%s-%s-%s", lower(var.project_name), var.environment,var.location, random_integer.random_integer.result)
   location                    = azurerm_resource_group.rg.location
   resource_group_name         = azurerm_resource_group.rg.name
   enabled_for_disk_encryption = true
