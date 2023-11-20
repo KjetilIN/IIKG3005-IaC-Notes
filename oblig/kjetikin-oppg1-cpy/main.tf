@@ -9,7 +9,7 @@ module "storage_account" {
 
   // For storing the access key in a key vault (optional)
   store_access_key_in_key_vault = true
-  key_vault_id = module.key_vault.key_vault_id
+  key_vault_id                  = module.key_vault.key_vault_id
 }
 
 // Virtual Machine module
@@ -22,16 +22,14 @@ module "virtual_machine" {
   common_tags  = local.common_tags
 
   // Credentaials for the VM (Password is optional and must be at least 20 chars long)
-  username = var.vm_user_name
+  usernames = [var.vm_user_name, "kjetil-testing-1!!"]
 
   // Use the first nic for the VM
-  nic_id = module.network.nic_ids[0]
-providers = {
-    
-  }
+  nic_ids = module.network.nic_ids
+
   //For storing credentials in Key Vault (Optional)  
   save_credentials_in_keyvault = true
-  key_vault_id = module.key_vault.key_vault_id
+  key_vault_id                 = module.key_vault.key_vault_id
 }
 
 

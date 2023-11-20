@@ -47,8 +47,8 @@ variable "subnets" {
 
 
 variable "public_ip_to_host" {
-    type = string
-    description = "IP Adress that allows SSH to connect"
+    type = list(string)
+    description = "IP Adresses that allows SSH to connect"
   
 }
 

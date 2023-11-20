@@ -13,7 +13,7 @@ resource "azurerm_network_security_group" "nsg" {
     protocol = "Tcp"
     source_port_range = "*"
     destination_port_range = "*"
-    source_address_prefix = var.public_ip_to_host
+    source_address_prefixes = var.public_ip_to_host
     destination_address_prefix = "*"
   }
 
